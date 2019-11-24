@@ -84,14 +84,14 @@ def taxi_telephone_numbers_message(message):
     elif '/' + message.text.lower() in commandlist:
         exec(commandlist['/' + message.text.lower()])
     else:
-        global taxidict
-	try:
-		ttnumbers = taxidict[message.text.lower()]
-	except:
-	    	pass
+	global taxidict
+        try:
+            ttnumbers = taxidict[message.text.lower()]
+        except:
+            pass
         ttnumbers = ttnumbers.split('. ')
         ttnumbers = '\n'.join(ttnumbers)
-        bot.send_message(message.chat.id, ttnumbers)
+	bot.send_message(message.chat.id, ttnumbers)
 #Блок для разработчиков
 @bot.message_handler(commands=['developers'])
 def developers_message(message):
