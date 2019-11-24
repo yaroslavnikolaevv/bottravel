@@ -92,7 +92,7 @@ def taxi_telephone_numbers_message(message):
 #Блок для разработчиков
 @bot.message_handler(commands=['developers'])
 def developers_message(message):
-    print('пока в разработке')
+    bot.send_message(message.chat.id, 'Если у вас есть идеи по дальнейшему развитию нашего проекта:\nЯрослав: https://vk.com/yarik_tat\nИгорь: https://vk.com/bayanovigor\nВладимир: https://vk.com/ia_ifferus\nРустам: https://vk.com/rustknight7\nДаниэль: https://vk.com/sintirev')
 #Блок для поиска билетов
 @bot.message_handler(commands=['tickets', 'route'])
 def tickets_message(message):
