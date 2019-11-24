@@ -141,16 +141,16 @@ def date_registration(message):
         exec(commandlist['/' + message.text.lower()])
     else:
     	dateregistration_dict.update({str(message.chat.id),message.text.lower()})
-	print(fromplace_dict[str(message.chat.id)])
-	print(toplace_dict[str(message.chat.id)])
-	print(dateregistration_dict[str(message.chat.id)])
-	Sendler(fromInput=fromplace_dict[str(message.chat.id)],fromOutput=toplace_dict[str(message.chat.id)],date=dateregistration_dict[str(message.chat.id)]).send()
-	bot.send_message(message.chat.id, 'Ищу билеты по выбранному направлению')
-	bot.send_sticker(message.chat.id, random.choice(loadstickerpack))
-	bot.send_message(message.chat.id, 'Билеты по маршруту {0} - {1} на {2} '.format(fromplace_dict[str(message.chat.id)], toplace_dict[str(message.chat.id)], dateregistration_dict[str(message.chat.id)]) + "\n" + reader.read())      
-	del fromplace_dict[str(message.chat.id)]
-	del toplace_dict[str(message.chat.id)]
-	del dateregistration_dict[str(message.chat.id)]
+    	print(fromplace_dict[str(message.chat.id)])
+    	print(toplace_dict[str(message.chat.id)])
+    	print(dateregistration_dict[str(message.chat.id)])
+    	Sendler(fromInput=fromplace_dict[str(message.chat.id)],fromOutput=toplace_dict[str(message.chat.id)],date=dateregistration_dict[str(message.chat.id)]).send()
+    	bot.send_message(message.chat.id, 'Ищу билеты по выбранному направлению')
+    	bot.send_sticker(message.chat.id, random.choice(loadstickerpack))
+    	bot.send_message(message.chat.id, 'Билеты по маршруту {0} - {1} на {2} '.format(fromplace_dict[str(message.chat.id)], toplace_dict[str(message.chat.id)], dateregistration_dict[str(message.chat.id)]) + "\n" + reader.read())      
+    	del fromplace_dict[str(message.chat.id)]
+    	del toplace_dict[str(message.chat.id)]
+    	del dateregistration_dict[str(message.chat.id)]
 #Блок для команды старт
 @bot.message_handler(commands=['start'])
 
