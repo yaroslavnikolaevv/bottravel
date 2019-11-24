@@ -61,7 +61,7 @@ def wikipedia_message(message):
 def wikipedia_information(message):
 	if message.text.lower() in commandlist:
         	exec(commandlist[message.text.lower()])
-    	elif message.text.lower() in commandlist_ru:
+	elif message.text.lower() in commandlist_ru:
         	exec(commandlist_ru[message.text.lower()])
     	elif '/' + message.text.lower() in commandlist:
         	exec(commandlist['/' + message.text.lower()])
