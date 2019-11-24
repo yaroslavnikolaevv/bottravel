@@ -36,8 +36,8 @@ developerslist = ['рустам', 'ярослав', 'владимир', 'дан�
 nongratlist = ['арина', 'ариша', 'алия']
 #Блок кнопок
 keyboard1 = telebot.types.ReplyKeyboardMarkup(True, True)
-keyboard1.row('start', 'help', 'weather', 'developers')
-keyboard1.row('music', 'tickets', 'taxi', 'video')
+keyboard1.row('старт', 'помощь', 'погода', 'такси', 'билеты')
+keyboard1.row('музыка', 'видео', 'разработчики')
 #Блок погоды
 owm = pyowm.OWM('6d00d1d4e704068d70191bad2673e0cc', language = 'ru')
 bot = telebot.TeleBot(token)
