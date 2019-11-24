@@ -91,7 +91,7 @@ def taxi_telephone_numbers_message(message):
             pass
         ttnumbers = ttnumbers.split('. ')
         ttnumbers = '\n'.join(ttnumbers)
-	bot.send_message(message.chat.id, ttnumbers)
+        bot.send_message(message.chat.id, ttnumbers)
 #Блок для разработчиков
 @bot.message_handler(commands=['developers'])
 def developers_message(message):
