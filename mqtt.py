@@ -10,8 +10,11 @@ def on_message(client,userdata,msg):
 class Sendler:
 	def __init__(self,fromInput,fromOutput,date):
 		self.fromOutput=str(fromOutput)
+		print(fromOutput)
 		self.fromInput=str(fromInput)
+		print(fromInput)
 		self.date=str(date)
+		print(date)
 	def send(self):
 		run=1
 		time.sleep(3)
@@ -26,5 +29,6 @@ class Sendler:
 			client.publish("Inform",self.fromInput+":"+self.fromOutput+":"+self.date)
 			time.sleep(2)
 			run+=1
+			print(run)
 		client.loop_stop()
 		client.disconnect()
