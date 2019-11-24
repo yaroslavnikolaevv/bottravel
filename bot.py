@@ -84,7 +84,7 @@ def taxi_telephone_numbers_message(message):
     elif '/' + message.text.lower() in commandlist:
         exec(commandlist['/' + message.text.lower()])
     else:
-	global taxidict
+        global taxidict
         try:
             ttnumbers = taxidict[message.text.lower()]
         except:
