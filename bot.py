@@ -42,11 +42,12 @@ keyboard1.row('музыка', 'видео', 'разработчики')
 owm = pyowm.OWM('6d00d1d4e704068d70191bad2673e0cc', language = 'ru')
 bot = telebot.TeleBot(token)
 #Блок переменных
-fromplace = str()
-toplace = str()
-dateregistration = str()
+fromplace_dict={}
+toplace_dict={}
+dateregistration_dict={}
 video_search = ''
 video_search_list = []
+videos_for_dict={}
 res = ''
 status = ''
 #Блок команды для такси
@@ -80,7 +81,7 @@ def tickets_message(message):
     
 def fromplace_registration(message):
     global commandlist
-    global fromplace
+    global fromplace_dict
     if message.text.lower() in commandlist:
         exec(commandlist[message.text.lower()])
     elif message.text.lower() in commandlist_ru:
@@ -88,13 +89,13 @@ def fromplace_registration(message):
     elif '/' + message.text.lower() in commandlist:
         exec(commandlist['/' + message.text.lower()])
     else:
-        fromplace = message.text.lower()
+        fromplace_dict.update({str(message.chat.id),message.text.lower()})
         bot.send_message(message.chat.id, 'Введите город назначения')
         bot.register_next_step_handler(message, toplace_registration)
         
 def toplace_registration(message):
     global commandlist
-    global toplace
+    global toplace_dict
     if message.text.lower() in commandlist:
         exec(commandlist[message.text.lower()])
     elif message.text.lower() in commandlist_ru:
@@ -102,15 +103,15 @@ def toplace_registration(message):
     elif '/' + message.text.lower() in commandlist:
         exec(commandlist['/' + message.text.lower()])
     else:
-        toplace = message.text.lower()
+        toplace_dict.update({str(message.chat.id),message.text.lower()})
         bot.send_message(message.chat.id, 'Введите дату отправления')#rzd
         bot.register_next_step_handler(message, date_registration)
         
 def date_registration(message):
     global commandlist
-    global fromplace
-    global toplace
-    global dateregistration
+    global fromplace_dict
+	global toplace_dict
+	global dateregistration_dict
     global loadsticerpack
     if message.text.lower() in commandlist:
         exec(commandlist[message.text.lower()])
@@ -119,14 +120,17 @@ def date_registration(message):
     elif '/' + message.text.lower() in commandlist:
         exec(commandlist['/' + message.text.lower()])
     else:
-        dateregistration = message.text.lower()
-        print(fromplace)
-        print(toplace)
-        print(dateregistration)
-        Sendler(fromInput=fromplace,fromOutput=toplace,date=dateregistration).send()
+        dateregistration_dict.update({str(message.chat.id),message.text.lower()})
+        print(fromplace_dict[str(message.chat.id)])
+		print(toplace_dict[str(message.chat.id)])
+		print(dateregistration_dict[str(message.chat.id)])
+        Sendler(fromInput=fromplace_dict[str(message.chat.id)],fromOutput=toplace_dict[str(message.chat.id)],date=dateregistration_dict[str(message.chat.id)]).send()
         bot.send_message(message.chat.id, 'Ищу билеты по выбранному направлению')
         bot.send_sticker(message.chat.id, random.choice(loadstickerpack))
-        bot.send_message(message.chat.id, 'Билеты по маршруту {0} - {1} на {2} '.format(fromplace, toplace, dateregistration) + "\n" + reader.read())   
+        bot.send_message(message.chat.id, 'Билеты по маршруту {0} - {1} на {2} '.format(fromplace_dict[str(message.chat.id)], toplace_dict[str(message.chat.id)], dateregistration_dict[str(message.chat.id)]) + "\n" + reader.read())      
+        del fromplace_dict[str(message.chat.id)]
+		del toplace_dict[str(message.chat.id)]
+		del dateregistration_dict[str(message.chat.id)]
 #Блок для команды старт
 @bot.message_handler(commands=['start'])
 
@@ -218,9 +222,15 @@ def video_search(message):
         video_search = video_search[:-1]
         html = requests.get(video_search).text
         soup = bs(html,'html.parser')
+        count=0
         links = soup.find_all(attrs={'class':'yt-uix-tile-link'})
         links= [l['href'] for l in links]
-        res = 'https://www.youtube.com/' + links[0]
+        videos_for_dict.update({str(message.chat.id):[links,count]}
+        if ('channel' or 'user') not in links[count]
+            res = 'https://www.youtube.com/' + links[videos_for_dict[str(message.chat.id)][1]]
+        else:
+            res = 'https://www.youtube.com/' + links[videos_for_dict[str(message.chat.id)][1]+1]
+            videos_for_dict[str(message.chat.id)][1]=videos_for_dict[str(message.chat.id)][1]+1               
         bot.send_message(message.chat.id, res)  
 #Блок для обработки текста
 @bot.message_handler(content_types=['text'])
