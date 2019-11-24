@@ -86,9 +86,9 @@ def taxi_telephone_numbers_message(message):
     else:
         global taxidict
 	try:
-        	ttnumbers = taxidict[message.text.lower()]
+            ttnumbers = taxidict[message.text.lower()]
 	except:
-		pass
+	    pass
         ttnumbers = ttnumbers.split('. ')
         ttnumbers = '\n'.join(ttnumbers)
         bot.send_message(message.chat.id, ttnumbers)
