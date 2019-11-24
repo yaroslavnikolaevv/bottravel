@@ -10,10 +10,13 @@ def on_message(client,userdata,msg):
 class Sendler:
 	def __init__(self,fromInput,fromOutput,date):
 		self.fromOutput=str(fromOutput)
+		print('Вывожу fromOutput')
 		print(fromOutput)
 		self.fromInput=str(fromInput)
+		print('Вывожу fromInput')
 		print(fromInput)
 		self.date=str(date)
+		print('Вывожу time')
 		print(date)
 	def send(self):
 		run=1
