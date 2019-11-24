@@ -150,7 +150,9 @@ def date_registration(message):
     	Sendler(fromInput=fromplace_dict[str(message.chat.id)],fromOutput=toplace_dict[str(message.chat.id)],date=dateregistration_dict[str(message.chat.id)]).send()
     	bot.send_message(message.chat.id, 'Ищу билеты по выбранному направлению')
     	bot.send_sticker(message.chat.id, random.choice(loadstickerpack))
-    	bot.send_message(message.chat.id, 'Билеты по маршруту {0} - {1} на {2} '.format(fromplace_dict[str(message.chat.id)], toplace_dict[str(message.chat.id)], dateregistration_dict[str(message.chat.id)]) + "\n" + reader.read())      
+	fromplace = fromplace_dict[str(message.chat.id)]
+	toplace = toplace_dict[str(message.chat.id)]
+    	bot.send_message(message.chat.id, 'Билеты по маршруту {0} - {1} на {2} '.format(fromplace[0].upper(), toplace.lower()[1:], dateregistration_dict[str(message.chat.id)]) + "\n" + reader.read())      
     	del fromplace_dict[str(message.chat.id)]
     	del toplace_dict[str(message.chat.id)]
     	del dateregistration_dict[str(message.chat.id)]
