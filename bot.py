@@ -245,12 +245,12 @@ def video_search(message):
         count=0
         links = soup.find_all(attrs={'class':'yt-uix-tile-link'})
         links= [l['href'] for l in links]
-        videos_for_dict.update({str(message.chat.id):[links,count]}
-        if ('channel' or 'user') not in links[count]
-            res = 'https://www.youtube.com/' + videos_for_dict[str(message.chat.id)][0][videos_for_dict[str(message.chat.id)][1]]]
+#         videos_for_dict.update({str(message.chat.id):[links,count]}
+        if ('channel' or 'user') not in links[0]
+            res = 'https://www.youtube.com/' + links[0]
         else:
-            res = 'https://www.youtube.com/' + videos_for_dict[str(message.chat.id)][0][videos_for_dict[str(message.chat.id)][1]+1]]
-            videos_for_dict[str(message.chat.id)][1]=videos_for_dict[str(message.chat.id)][1]+1             
+            res = 'https://www.youtube.com/' + links[1]
+               
         bot.send_message(message.chat.id, res)  
 #Блок для обработки текста
 @bot.message_handler(content_types=['text'])
