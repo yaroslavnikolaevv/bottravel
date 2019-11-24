@@ -185,7 +185,7 @@ def music_message(message):
     audiolist = []
     for i in range(3):
         while True:
-            n = random.randint(1,34)
+            n = random.randint(1,36)
             if n not in audiolist:
                 break
         audiolist.append(n)
