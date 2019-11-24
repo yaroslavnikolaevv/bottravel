@@ -123,7 +123,7 @@ def toplace_registration(message):
     elif '/' + message.text.lower() in commandlist:
         exec(commandlist['/' + message.text.lower()])
     else:
-        toplace_dict.update({str(message.chat.id),message.text.lower()})
+        toplace_dict.update({str(message.chat.id):message.text.lower()})
         bot.send_message(message.chat.id, 'Введите дату отправления')#rzd
         bot.register_next_step_handler(message, date_registration)
         
@@ -140,7 +140,7 @@ def date_registration(message):
     elif '/' + message.text.lower() in commandlist:
         exec(commandlist['/' + message.text.lower()])
     else:
-    	dateregistration_dict.update({str(message.chat.id),message.text.lower()})
+    	dateregistration_dict.update({str(message.chat.id):message.text.lower()})
     	print(fromplace_dict[str(message.chat.id)])
     	print(toplace_dict[str(message.chat.id)])
     	print(dateregistration_dict[str(message.chat.id)])
