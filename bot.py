@@ -88,10 +88,10 @@ def taxi_telephone_numbers_message(message):
 	try:
 		ttnumbers = taxidict[message.text.lower()]
 	except:
-	    pass
-    ttnumbers = ttnumbers.split('. ')
-    ttnumbers = '\n'.join(ttnumbers)
-    bot.send_message(message.chat.id, ttnumbers)
+	    	pass
+        ttnumbers = ttnumbers.split('. ')
+        ttnumbers = '\n'.join(ttnumbers)
+        bot.send_message(message.chat.id, ttnumbers)
 #Блок для разработчиков
 @bot.message_handler(commands=['developers'])
 def developers_message(message):
