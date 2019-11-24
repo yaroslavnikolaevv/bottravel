@@ -26,11 +26,11 @@ class Sendler:
 		client.on_message=on_message
 		client.connect("m16.cloudmqtt.com",11729,60)
 		client.username_pw_set("tizzoqtl", "sqCYE8vpFV1P")
-		time.sleep(0.1)
+		time.sleep(0.4)
 		client.loop_start()
 		while run<3:
 			client.publish("Inform",self.fromInput+":"+self.fromOutput+":"+self.date)
-			time.sleep(0.1)
+			time.sleep(1.2)
 			run+=1
 			print(run)
 		client.loop_stop()
