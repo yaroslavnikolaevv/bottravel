@@ -85,7 +85,10 @@ def taxi_telephone_numbers_message(message):
         exec(commandlist['/' + message.text.lower()])
     else:
         global taxidict
-        ttnumbers = taxidict[message.text.lower()]
+	try:
+        	ttnumbers = taxidict[message.text.lower()]
+	except:
+		pass
         ttnumbers = ttnumbers.split('. ')
         ttnumbers = '\n'.join(ttnumbers)
         bot.send_message(message.chat.id, ttnumbers)
