@@ -200,9 +200,9 @@ def weather_information(message):
 #Блок для помощи
 @bot.message_handler(commands=['help'])
 def help_message(message):
-   global lovestickerpack
-   bot.send_message(message.chat.id, '1./start("старт") - возвращает наш диалог к исходному состоянию\n2./weather("погода") - узнать погоду в любом городе мира\n3./tickets, /route("билеты", "маршрут") - узнать доступные на данный момент билеты\n4./taxi("такси") - узнать номера такси в выбранном городе\n5./music("музыка") - прослушать случайные треки, выбранные нашей командой\n6./video - найти видео по запросу\n7./wikipedia, /wiki('Википедия', 'вики') - позволяет узнает краткую информационную сводку из Википедии\n8./developers("разработчики") - узнать контактные данные нашей команды')
-   bot.send_sticker(message.chat.id,random.choice(lovestickerpack))
+    global lovestickerpack
+    bot.send_message(message.chat.id, '1./start("старт") - возвращает наш диалог к исходному состоянию\n2./weather("погода") - узнать погоду в любом городе мира\n3./tickets, /route("билеты", "маршрут") - узнать доступные на данный момент билеты\n4./taxi("такси") - узнать номера такси в выбранном городе\n5./music("музыка") - прослушать случайные треки, выбранные нашей командой\n6./video - найти видео по запросу\n7./wikipedia, /wiki('Википедия', 'вики') - позволяет узнает краткую информационную сводку из Википедии\n8./developers("разработчики") - узнать контактные данные нашей команды')
+    bot.send_sticker(message.chat.id,random.choice(lovestickerpack))
 #Блок для музыки
 @bot.message_handler(commands=['music'])
 def music_message(message):
