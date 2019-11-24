@@ -55,7 +55,7 @@ status = ''
 #Блок для Википедии
 @bot.message_handler(commands=['wiki', 'wikipedia'])
 def wikipedia_message(message):
-	bot.send(message.chat.id, 'Введите место, информацию о котором хотели бы узнать')
+	bot.send_message(message.chat.id, 'Введите место, информацию о котором хотели бы узнать')
 	bot.register_next_step_handler(message, wikipedia_information)
 
 def wikipedia_information(message):
