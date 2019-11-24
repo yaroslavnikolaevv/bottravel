@@ -109,7 +109,7 @@ def fromplace_registration(message):
     elif '/' + message.text.lower() in commandlist:
         exec(commandlist['/' + message.text.lower()])
     else:
-        fromplace_dict.update({str(message.chat.id),message.text.lower()})
+        fromplace_dict.update({str(message.chat.id):message.text.lower()})
         bot.send_message(message.chat.id, 'Введите город назначения')
         bot.register_next_step_handler(message, toplace_registration)
         
