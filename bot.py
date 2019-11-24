@@ -246,7 +246,7 @@ def video_search(message):
         links = soup.find_all(attrs={'class':'yt-uix-tile-link'})
         links= [l['href'] for l in links]
 #         videos_for_dict.update({str(message.chat.id):[links,count]}
-        if ('channel' or 'user') not in links[0]
+        if ('channel' or 'user') not in links[0]:
             res = 'https://www.youtube.com/' + links[0]
         else:
             res = 'https://www.youtube.com/' + links[1]
