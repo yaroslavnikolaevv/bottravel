@@ -247,10 +247,10 @@ def video_search(message):
         links= [l['href'] for l in links]
         videos_for_dict.update({str(message.chat.id):[links,count]}
         if ('channel' or 'user') not in links[count]
-            res = 'https://www.youtube.com/' + links[videos_for_dict[str(message.chat.id)][1]]
+            res = 'https://www.youtube.com/' + videos_for_dict[str(message.chat.id)][0][videos_for_dict[str(message.chat.id)][1]]]
         else:
-            res = 'https://www.youtube.com/' + links[videos_for_dict[str(message.chat.id)][1]+1]
-            videos_for_dict[str(message.chat.id)][1]=videos_for_dict[str(message.chat.id)][1]+1               
+            res = 'https://www.youtube.com/' + videos_for_dict[str(message.chat.id)][0][videos_for_dict[str(message.chat.id)][1]+1]]
+            videos_for_dict[str(message.chat.id)][1]=videos_for_dict[str(message.chat.id)][1]+1             
         bot.send_message(message.chat.id, res)  
 #Блок для обработки текста
 @bot.message_handler(content_types=['text'])
