@@ -41,7 +41,7 @@ keyboard1.row('такси', 'билеты', 'погода')
 keyboard1.row('музыка', 'видео', 'вики')
 keyboard1.row('старт', 'помощь', 'разработчики')
 #Блок погоды
-owm = pyowm.OWM('6d00d1d4e704068d70191bad2673e0cc', language = 'ru')
+owm = pyowm.OWM('6d00d1d4e704068d70191bad2673e0cc', language = 'ru, en')
 bot = telebot.TeleBot(token)
 #Блок переменных
 fromplace_dict={}
@@ -190,7 +190,7 @@ def weather_information(message):
             wind = weather.get_wind()['speed']
             print(weather)
             weathercity = message.text[0].upper() + message.text.lower()[1:]
-            bot.send_message(message.chat.id, "Погода города " + weathercity + "\nТемпература: " + str(temp) + "°C" + "\nНа улице: " + str.title(status) + "\nСкорость Ветра: " + str(wind) + "м/c")
+            bot.send_message(message.chat.id, "Погода города/Weather: " + weathercity + "\nТемпература/Temperature: " + str(temp) + "°C" + "\nНа улице/On the street: " + str.title(status) + "\nСкорость Ветра/Wind speed: " + str(wind) + "м/c")
             if temp >= 15:
                 bot.send_message(message.chat.id, "Погода-mood: Cамое-то ")
             elif 15 > temp  and temp > 0:
