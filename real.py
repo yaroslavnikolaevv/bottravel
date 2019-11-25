@@ -11,7 +11,7 @@ import datetime
 #import reader
 import os
 from dotenv import load_dotenv
-from queue import Queue
+from multiprocessing import Queue
 import codecs
 import urllib.request
 from bs4 import BeautifulSoup as bs
@@ -55,7 +55,7 @@ video_search_list = []
 videos_for_dict={}
 res = ''
 status = ''
-q = Queue()
+q = []
 #Блок для советов
 @bot.message_handler(commands=['advice'])
 def advice_message(message):
@@ -165,12 +165,12 @@ def date_registration(message):
     else:
         global lovestickerpack
         global q
-        q.put([fromplace_dict[str(message.chat.id)],toplace_dict[str(message.chat.id)],dateregistration_dict[str(message.chat.id)],str(message.chat.id)])
+        q.append([fromplace_dict[str(message.chat.id)],toplace_dict[str(message.chat.id)],dateregistration_dict[str(message.chat.id)],str(message.chat.id)])
         dateregistration_dict.update({str(message.chat.id):message.text.lower()})
         print(fromplace_dict[str(message.chat.id)])
         print(toplace_dict[str(message.chat.id)])
         print(dateregistration_dict[str(message.chat.id)])
-        args=q.get()
+        args=q[0]
         #Sendler(fromInput=fromplace_dict[str(message.chat.id)],fromOutput=toplace_dict[str(message.chat.id)],date=dateregistration_dict[str(message.chat.id)]).send()
         bot.send_message(message.chat.id, 'Ищу билеты по выбранному направлению')
         bot.send_sticker(message.chat.id, random.choice(loadstickerpack))
@@ -184,13 +184,14 @@ def date_registration(message):
             del fromplace_dict[str(message.chat.id)]
             del toplace_dict[str(message.chat.id)]
             del dateregistration_dict[str(message.chat.id)]
+            del q[0]
         else:
             bot.send_message(res[0], 'Билеты по маршруту {0} - {1} на {2} '.format(fromplace[0].upper() + fromplace.lower()[1:], toplace[0].upper() + toplace.lower()[1:], dateregistration_dict[str(message.chat.id)]) + "\n" +  str( response[response.index(":"):]))      
             bot.send_sticker(res[0], random.choice(lovestickerpack))
             del fromplace_dict[str(res[0])]
             del toplace_dict[str(res[0])]
             del dateregistration_dict[str(res[0])]
-        
+            del q[0]
 #Блок для команды старт
 @bot.message_handler(commands=['start'])
 
