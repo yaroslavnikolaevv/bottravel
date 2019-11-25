@@ -35,7 +35,7 @@ questionstickerpack = ['CAADAgAD4wADVp29Cg_4Isytpgs3FgQ', 'CAADAgADEgADwDZPEzO8n
 angrystickerpack = ['CAADAgAD3AADVp29Cpy9Gm5Tg192FgQ', 'CAADAgAD2wADVp29Clxn-p9taVttFgQ', 'CAADAgADywADVp29CllGpcs9gzQoFgQ']
 loadstickerpack = ['CAADAgADGAADwDZPE9b6J7-cahj4FgQ', 'CAADAgAD1QADVp29CveXwRdcmk7nFgQ', 'CAADAgADwAADVp29Ct1dnTI9q-YvFgQ', 'CAADAgAD4QADVp29ClvBlItA-NOgFgQ', 'CAADAgAD5QADVp29CggLFmSVBdGKFgQ']
 #недопустимые символы в названии файла
-symbols=['/','|','*',':','?','\','<','>','"']
+
 #Блок имен
 developerslist = ['рустам', 'ярослав', 'владимир', 'даниэль', 'игорь']
 nongratlist = ['арина', 'ариша', 'алия']
@@ -314,15 +314,13 @@ def video_search(message):
         else:
             res = 'https://www.youtube.com/' + links[1]
         yt = YouTube(res)
-        stream = yt.streams.first()
-        name=stream.title
-        for i in name:
-            if i in symbols:
-                name=str(name[:name.index(i)])+str(name[name.index(i)+1:])
-        print(name)
-        stream.download()
-        video = open(name+'.mp4', 'rb')
+        out_file = yt.streams.first().download()
+        
+        os.rename(out_file, 'new.mp4')
+        video = open('new.mp4', 'rb')
         bot.send_video(message.chat.id, video)
+        time.sleep(6)
+        os.remove('new.mp4')
         
         
 #             bot.send_message(message.chat.id, res)
