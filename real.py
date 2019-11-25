@@ -175,7 +175,7 @@ def date_registration(message):
         toplace = toplace_dict[str(message.chat.id)]
         if queue==0:
             queue=1
-            response= Parsers(fromInput=fromplace_dict[str(message.chat.id)],fromOutput=toplace_dict[str(message.chat.id)],date=dateregistration_dict[str(message.chat.id)]).threader()
+            response= Parsers(fromInput=fromplace_dict[str(message.chat.id)],fromOutput=toplace_dict[str(message.chat.id)],date=dateregistration_dict[str(message.chat.id)],user=message.chat.id).threader()
             res=response.split(":")
             if str(message.chat.id) in res:
                 bot.send_message(message.chat.id, 'Билеты по маршруту {0} - {1} на {2} '.format(fromplace[0].upper() + fromplace.lower()[1:], toplace[0].upper() + toplace.lower()[1:], dateregistration_dict[str(message.chat.id)]) + "\n" +str(res)   )    
@@ -193,7 +193,7 @@ def date_registration(message):
                 count=count+1
             else:
                 queue=1
-                response= Parsers(fromInput=fromplace_dict[str(message.chat.id)],fromOutput=toplace_dict[str(message.chat.id)],date=dateregistration_dict[str(message.chat.id)]).threader()
+                response= Parsers(fromInput=fromplace_dict[str(message.chat.id)],fromOutput=toplace_dict[str(message.chat.id)],date=dateregistration_dict[str(message.chat.id)],user=message.chat.id).threader()
                 res=response.split(":")
                 if str(message.chat.id) in res:
                     bot.send_message(message.chat.id, 'Билеты по маршруту {0} - {1} на {2} '.format(fromplace[0].upper() + fromplace.lower()[1:], toplace[0].upper() + toplace.lower()[1:], dateregistration_dict[str(message.chat.id)]) + "\n" +  str(res) )    
