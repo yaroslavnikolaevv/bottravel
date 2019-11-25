@@ -10,12 +10,7 @@ import datetime
 
 ur_rzd= ""
 ur_s7=''
-fromplace='казань'
-toplace='москва'
-datex='02.02.2020'
-fromplace2='москва'
-toplace2='санкт-петербург'
-datey='04.02.2020'
+
 class Parsers:
     def __init__(self,fromInput,fromOutput,date):
         self.fromInput=fromInput
@@ -115,7 +110,8 @@ def get_r(fromInput,fromOutput,date):
     except:
         return('в одном из городов не найден вокзал, пожалуйста впишите город, в котором есть вокзал')
     ur_rzd=rzd.current_url
-    count=0        
+    count=0
+    rzd.quit()
     
     return(ur_rzd)
 
@@ -278,6 +274,7 @@ def get_s(fromInput,fromOutput,date):
             return('в одном из городов нет аэропорта, введите город, в котором есть аэропорт или попробуйте еще раз')
             
         ur_s7=s7.current_url
+        s7.quit()
         
         return(ur_s7)    
 
