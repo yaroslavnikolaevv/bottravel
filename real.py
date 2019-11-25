@@ -294,37 +294,36 @@ def video_search(message):
     elif '/' + message.text.lower() in commandlist:
         exec(commandlist['/' + message.text.lower()])
     else:
-        try:
-            video_search = message.text
-            video_search_list = video_search.split()
-            video_search = 'https://www.youtube.com/results?search_query='
-            for i in range(len(video_search_list)):
-                video_search += video_search_list[i]
-                video_search += '+'
-            video_search = video_search[:-1]
-            html = requests.get(video_search).text
-            soup = bs(html,'html.parser')
-            count=0
-            links = soup.find_all(attrs={'class':'yt-uix-tile-link'})
-            links= [l['href'] for l in links]
-            if ('channel' or 'user') not in links[0]:
-                res = 'https://www.youtube.com/' + links[0]
+        video_search = message.text
+        video_search_list = video_search.split()
+        video_search = 'https://www.youtube.com/results?search_query='
+        for i in range(len(video_search_list)):
+            video_search += video_search_list[i]
+            video_search += '+'
+        video_search = video_search[:-1]
+        html = requests.get(video_search).text
+        soup = bs(html,'html.parser')
+        count=0
+        links = soup.find_all(attrs={'class':'yt-uix-tile-link'})
+        links= [l['href'] for l in links]
+        if ('channel' or 'user') not in links[0]:
+            res = 'https://www.youtube.com/' + links[0]
                 
-            else:
-                res = 'https://www.youtube.com/' + links[1]
-            yt = YouTube(res)
-            stream = yt.streams.first()
-            name=stream.title
-            stream.download()
-            video = open(name+'.mp4', 'rb')
-            bot.send_video(message.chat.id, video)
-            time.sleep(4)
-            os.remove(name+'.mp4')
+        else:
+            res = 'https://www.youtube.com/' + links[1]
+        yt = YouTube(res)
+        stream = yt.streams.first()
+        name=stream.title
+        stream.download()
+        video = open(name+'.mp4', 'rb')
+        bot.send_video(message.chat.id, video)
+        time.sleep(4)
+        os.remove(name+'.mp4')
 #             bot.send_message(message.chat.id, res)
-        except:
-            global questionstickerpack
-            bot.send_message(message.chat.id, 'Видео, связанное с этой темой, пока не сняли')
-            bot.send_sticker(message.chat.id, random.choice(questionstickerpack))
+        
+#             global questionstickerpack
+#             bot.send_message(message.chat.id, 'Видео, связанное с этой темой, пока не сняли')
+#             bot.send_sticker(message.chat.id, random.choice(questionstickerpack))
 #Блок для обработки текста
 @bot.message_handler(content_types=['text'])
 def text_analyze(message):
