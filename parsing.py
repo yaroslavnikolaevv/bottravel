@@ -211,6 +211,7 @@ def get_s(fromInput,fromOutput,date,user):
     except:
         s7.quit()
         s7_dict.update({user:'извините,но ссылки не будет,так как один из городов не найден'})
+        return(0)
     now=datetime.datetime.now()
     then=datetime.datetime(year=year1,month=int(month1),day=day1)
     delta=then-now
