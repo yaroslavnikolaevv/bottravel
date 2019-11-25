@@ -8,7 +8,7 @@ import pyowm
 import requests
 # from mqtt import *
 import datetime
-import reader
+#import reader
 import os
 from dotenv import load_dotenv
 import codecs
@@ -156,7 +156,7 @@ def date_registration(message):
 		print(fromplace_dict[str(message.chat.id)])
 		print(toplace_dict[str(message.chat.id)])
 		print(dateregistration_dict[str(message.chat.id)])
-		Sendler(fromInput=fromplace_dict[str(message.chat.id)],fromOutput=toplace_dict[str(message.chat.id)],date=dateregistration_dict[str(message.chat.id)]).send()
+		#Sendler(fromInput=fromplace_dict[str(message.chat.id)],fromOutput=toplace_dict[str(message.chat.id)],date=dateregistration_dict[str(message.chat.id)]).send()
 		bot.send_message(message.chat.id, 'Ищу билеты по выбранному направлению')
 		bot.send_sticker(message.chat.id, random.choice(loadstickerpack))
 		fromplace = fromplace_dict[str(message.chat.id)]
