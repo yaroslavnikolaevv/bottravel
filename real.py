@@ -11,7 +11,7 @@ import datetime
 #import reader
 import os
 from dotenv import load_dotenv
-
+from pytube import YouTube
 import codecs
 import urllib.request
 from bs4 import BeautifulSoup as bs
@@ -309,9 +309,18 @@ def video_search(message):
             links= [l['href'] for l in links]
             if ('channel' or 'user') not in links[0]:
                 res = 'https://www.youtube.com/' + links[0]
+                
             else:
                 res = 'https://www.youtube.com/' + links[1]
-            bot.send_message(message.chat.id, res)
+            yt = YouTube(res)
+            stream = yt.streams.first()
+            name=stream.title
+            stream.download()
+            video = open(name+'.mp4', 'rb')
+            bot.send_video(message.chat.id, video)
+            time.sleep(4)
+            os.remove(name+'.mp4')
+#             bot.send_message(message.chat.id, res)
         except:
             global questionstickerpack
             bot.send_message(message.chat.id, 'Видео, связанное с этой темой, пока не сняли')
