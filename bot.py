@@ -6,7 +6,7 @@ import time, re
 import time
 import pyowm
 import requests
-from mqtt import *
+# from mqtt import *
 import datetime
 import reader
 import os
@@ -14,6 +14,7 @@ from dotenv import load_dotenv
 import codecs
 import urllib.request
 from bs4 import BeautifulSoup as bs
+from parsing import *
 #Блок токена
 token = load_dotenv()
 token = os.getenv('TOKEN')
@@ -160,7 +161,7 @@ def date_registration(message):
 		bot.send_sticker(message.chat.id, random.choice(loadstickerpack))
 		fromplace = fromplace_dict[str(message.chat.id)]
 		toplace = toplace_dict[str(message.chat.id)]
-		bot.send_message(message.chat.id, 'Билеты по маршруту {0} - {1} на {2} '.format(fromplace[0].upper(), toplace.lower()[1:], dateregistration_dict[str(message.chat.id)]) + "\n" + reader.read())      
+		bot.send_message(message.chat.id, 'Билеты по маршруту {0} - {1} на {2} '.format(fromplace[0].upper(), toplace.lower()[1:], dateregistration_dict[str(message.chat.id)]) + "\n" + Parsers(fromInput=fromplace_dict[str(message.chat.id)],fromOutput=toplace_dict[str(message.chat.id)],date=dateregistration_dict[str(message.chat.id)]).threader())      
 		bot.send_sticker(message.chat.id, random.choice(lovestickerpack))
 		del fromplace_dict[str(message.chat.id)]
 		del toplace_dict[str(message.chat.id)]
