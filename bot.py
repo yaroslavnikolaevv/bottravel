@@ -250,31 +250,35 @@ def video_message(message):
 	bot.register_next_step_handler(message, video_search)
 
 def video_search(message):
-    if message.text.lower() in commandlist:
-        exec(commandlist[message.text.lower()])
-    elif message.text.lower() in commandlist_ru:
-        exec(commandlist_ru[message.text.lower()])
-    elif '/' + message.text.lower() in commandlist:
-        exec(commandlist['/' + message.text.lower()])
+	if message.text.lower() in commandlist:
+		exec(commandlist[message.text.lower()])
+	elif message.text.lower() in commandlist_ru:
+		exec(commandlist_ru[message.text.lower()])
+	elif '/' + message.text.lower() in commandlist:
+		exec(commandlist['/' + message.text.lower()])
     else:
-        video_search = message.text
-        video_search_list = video_search.split()
-        video_search = 'https://www.youtube.com/results?search_query='
-        for i in range(len(video_search_list)):
-            video_search += video_search_list[i]
-            video_search += '+'
-        video_search = video_search[:-1]
-        html = requests.get(video_search).text
-        soup = bs(html,'html.parser')
-        count=0
-        links = soup.find_all(attrs={'class':'yt-uix-tile-link'})
-        links= [l['href'] for l in links]
-#         videos_for_dict.update({str(message.chat.id):[links,count]}
-        if ('channel' or 'user') not in links[0]:
-            res = 'https://www.youtube.com/' + links[0]
-        else:
-            res = 'https://www.youtube.com/' + links[1]
-        bot.send_message(message.chat.id, res)  
+        try:
+		video_search = message.text
+        	video_search_list = video_search.split()
+        	video_search = 'https://www.youtube.com/results?search_query='
+        	for i in range(len(video_search_list)):
+			video_search += video_search_list[i]
+			video_search += '+'
+		video_search = video_search[:-1]
+		html = requests.get(video_search).text
+		soup = bs(html,'html.parser')
+		count=0
+		links = soup.find_all(attrs={'class':'yt-uix-tile-link'})
+		links= [l['href'] for l in links]
+		if ('channel' or 'user') not in links[0]:
+			res = 'https://www.youtube.com/' + links[0]
+		else:
+			res = 'https://www.youtube.com/' + links[1]
+		bot.send_message(message.chat.id, res)
+	except:
+		global questionstickerpack
+		bot.send_message(message.chat.id, 'Видео, связанное с этой темой, пока не сняли')
+		bot.send_sticker(message.chat.id, random.choice(questionstickerpack))
 #Блок для обработки текста
 @bot.message_handler(content_types=['text'])
 def text_analyze(message):
