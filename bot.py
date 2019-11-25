@@ -66,9 +66,14 @@ def wikipedia_information(message):
 	elif '/' + message.text.lower() in commandlist:
         	exec(commandlist['/' + message.text.lower()])
 	else:
-		wikipedia.set_lang('ru')
-		wikipediamessage = wikipedia.summary(message.text.lower(), sentences=4)
-		bot.send_message(message.chat.id, wikipediamessage)
+		try:
+			global lovestickerpack
+			wikipedia.set_lang('ru')
+			wikipediamessage = wikipedia.summary(message.text.lower(), sentences=4)
+			bot.send_message(message.chat.id, wikipediamessage)
+		except:
+			bot.send_message(message.chat.id, 'Такой статьи пока не существует, но вы в любой момент можете её создать')
+			bot.send_sticker(message.chat.id, random.choice(lovestickerpack))
 	
 #Блок команды для такси
 @bot.message_handler(commands=['taxi'])
@@ -91,11 +96,13 @@ def taxi_telephone_numbers_message(message):
 			ttnumbers = '\n'.join(ttnumbers)
 			bot.send_message(message.chat.id, ttnumbers)
 		except:
+			global questionstickerpack
 			bot.reply_to(message, 'Боюсь, что даже мистер Вульф не сможет туда приехать')
+			bot.send_sticker(message.chat.id, random.choice(questionstickerpack))
 #Блок для разработчиков
 @bot.message_handler(commands=['developers'])
 def developers_message(message):
-	bot.send_message(message.chat.id, 'Если у вас есть идеи по дальнейшему развитию нашего проекта:\nЯрослав: https://vk.com/yarik_tat\nИгорь: https://vk.com/bayanovigor\nВладимир: https://vk.com/ia_ifferus\nРустам: https://vk.com/rustknight7\nДаниэль: https://vk.com/sintirev')
+	bot.send_message(message.chat.id, 'Если у вас есть идеи по дальнейшему развитию нашего проекта:\nИгорь: https://vk.com/bayanovigor\nЯрослав: https://vk.com/yarik_tat\nВладимир: https://vk.com/ia_ifferus\nРустам: https://vk.com/rustknight7\nДаниэль: https://vk.com/sintirev')
 #Блок для поиска билетов
 @bot.message_handler(commands=['tickets', 'route'])
 def tickets_message(message):
@@ -143,6 +150,7 @@ def date_registration(message):
 	elif '/' + message.text.lower() in commandlist:
 		exec(commandlist['/' + message.text.lower()])
 	else:
+		global lovestickerpack
 		dateregistration_dict.update({str(message.chat.id):message.text.lower()})
 		print(fromplace_dict[str(message.chat.id)])
 		print(toplace_dict[str(message.chat.id)])
@@ -153,6 +161,7 @@ def date_registration(message):
 		fromplace = fromplace_dict[str(message.chat.id)]
 		toplace = toplace_dict[str(message.chat.id)]
 		bot.send_message(message.chat.id, 'Билеты по маршруту {0} - {1} на {2} '.format(fromplace[0].upper(), toplace.lower()[1:], dateregistration_dict[str(message.chat.id)]) + "\n" + reader.read())      
+		bot.send_sticker(message.chat.id, random.choice(lovestickerpack))
 		del fromplace_dict[str(message.chat.id)]
 		del toplace_dict[str(message.chat.id)]
 		del dateregistration_dict[str(message.chat.id)]
@@ -199,7 +208,7 @@ def weather_information(message):
 				bot.send_message(message.chat.id, "Погода-mood: Одевайся мать, пора воевать ")
 			elif temp <= -25:
 				bot.send_message(message.chat.id, "Погода-mood: Ты умрёшь, если уйдёшь")
-		except pyowm.exceptions.api_response_error.NotFoundError:
+		except:
 			bot.reply_to(message, 'Врешь, такого города нет на картах')
 			bot.send_sticker(message.chat.id, random.choice(angrystickerpack))
 #Блок для помощи
@@ -265,7 +274,6 @@ def video_search(message):
             res = 'https://www.youtube.com/' + links[0]
         else:
             res = 'https://www.youtube.com/' + links[1]
-               
         bot.send_message(message.chat.id, res)  
 #Блок для обработки текста
 @bot.message_handler(content_types=['text'])
