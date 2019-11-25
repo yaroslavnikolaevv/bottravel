@@ -224,7 +224,7 @@ def playlist(message):
 		audiolist = []
 		for i in range(int(message.text)):
 			while True:
-				n = random.randint(1,36)
+				n = random.randint(1,45)
 				if n not in audiolist:
 					break
 			audiolist.append(n)
