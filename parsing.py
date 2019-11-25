@@ -37,7 +37,7 @@ class Parsers:
         thread2.start()
         thread1.join()
         thread2.join()
-        return('Расписание на ж/д маршруты:'+str(rzd_dict[self.user])+'\n'+'Расписание на авиарейсы:'+str(s7_dict[self.user]))
+        return(str(self.user)+':'+'Расписание на ж/д маршруты:'+str(rzd_dict[self.user])+'\n'+'Расписание на авиарейсы:'+str(s7_dict[self.user]))
 
         
 def get_r(fromInput,fromOutput,date,user):
