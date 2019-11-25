@@ -32,8 +32,10 @@ class Parsers:
         thread2.start()
         thread1.join()
         thread2.join()
-        return(str(self.user)+':'+'Расписание на ж/д маршруты:'+str(rzd_dict[self.user])+'\n'+'Расписание на авиарейсы:'+str(s7_dict[self.user]))
-
+        try:
+            return(str(self.user)+':'+'Расписание на ж/д маршруты:'+str(rzd_dict[self.user])+'\n'+'Расписание на авиарейсы:'+str(s7_dict[self.user]))
+        except:
+            return(str(self.user)+':'+'ничего не найдено')
         
 def get_r(fromInput,fromOutput,date,user):
     ur_rzd= ""
