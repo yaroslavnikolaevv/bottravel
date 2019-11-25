@@ -118,6 +118,8 @@ def get_r(fromInput,fromOutput,date,user):
         button.click()
         print('кликаю кнопку найти')
     except:
+        rzd.quit()
+        rzd_dict.update({user:'извините,но ссылки не будет,так как один из городов не найден'})
         return('извините,но ссылки не будет,так как город не найден')
         #return('в одном из городов не найден вокзал, пожалуйста впишите город, в котором есть вокзал')
     ur_rzd=rzd.current_url
