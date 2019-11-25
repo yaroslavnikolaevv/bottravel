@@ -165,8 +165,9 @@ def date_registration(message):
     else:
         global lovestickerpack
         global q
-        q.append([fromplace_dict[str(message.chat.id)],toplace_dict[str(message.chat.id)],dateregistration_dict[str(message.chat.id)],str(message.chat.id)])
+        
         dateregistration_dict.update({str(message.chat.id):message.text.lower()})
+        q.append([fromplace_dict[str(message.chat.id)],toplace_dict[str(message.chat.id)],dateregistration_dict[str(message.chat.id)],str(message.chat.id)])
         print(fromplace_dict[str(message.chat.id)])
         print(toplace_dict[str(message.chat.id)])
         print(dateregistration_dict[str(message.chat.id)])
