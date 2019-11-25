@@ -317,8 +317,8 @@ def video_search(message):
         stream.download()
         video = open(name+'.mp4', 'rb')
         bot.send_video(message.chat.id, video)
-        time.sleep(4)
-        os.remove(name+'.mp4')
+        
+        
 #             bot.send_message(message.chat.id, res)
         
 #             global questionstickerpack
