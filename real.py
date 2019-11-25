@@ -178,7 +178,7 @@ def date_registration(message):
             response= Parsers(fromInput=fromplace_dict[str(message.chat.id)],fromOutput=toplace_dict[str(message.chat.id)],date=dateregistration_dict[str(message.chat.id)],user=message.chat.id).threader()
             res=response.split(":")
             if str(message.chat.id) in res[0]:
-                bot.send_message(message.chat.id, 'Билеты по маршруту {0} - {1} на {2} '.format(fromplace[0].upper() + fromplace.lower()[1:], toplace[0].upper() + toplace.lower()[1:], dateregistration_dict[str(message.chat.id)]) + "\n" +str(res)   )    
+                bot.send_message(message.chat.id, 'Билеты по маршруту {0} - {1} на {2} '.format(fromplace[0].upper() + fromplace.lower()[1:], toplace[0].upper() + toplace.lower()[1:], dateregistration_dict[str(message.chat.id)]) + "\n" +  str( response[response.index(":"):))      
                 bot.send_sticker(message.chat.id, random.choice(lovestickerpack))
                 del fromplace_dict[str(message.chat.id)]
                 del toplace_dict[str(message.chat.id)]
@@ -197,8 +197,10 @@ def date_registration(message):
                 queue=1
                 response= Parsers(fromInput=fromplace_dict[str(message.chat.id)],fromOutput=toplace_dict[str(message.chat.id)],date=dateregistration_dict[str(message.chat.id)],user=message.chat.id).threader()
                 res=response.split(":")
+                
                 if str(message.chat.id) in res[0]:
-                    bot.send_message(message.chat.id, 'Билеты по маршруту {0} - {1} на {2} '.format(fromplace[0].upper() + fromplace.lower()[1:], toplace[0].upper() + toplace.lower()[1:], dateregistration_dict[str(message.chat.id)]) + "\n" +  str(res) )    
+                    
+                    bot.send_message(message.chat.id, 'Билеты по маршруту {0} - {1} на {2} '.format(fromplace[0].upper() + fromplace.lower()[1:], toplace[0].upper() + toplace.lower()[1:], dateregistration_dict[str(message.chat.id)]) + "\n" +  str( response[response.index(":"):))    
                     bot.send_sticker(message.chat.id, random.choice(lovestickerpack))
                     del fromplace_dict[str(message.chat.id)]
                     del toplace_dict[str(message.chat.id)]
