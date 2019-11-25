@@ -131,7 +131,7 @@ def get_r(fromInput,fromOutput,date,user):
     rzd_dict.update({user:ur_rzd})
     ur_rzd=""
 
-def get_s(fromInput,fromOutput,date):
+def get_s(fromInput,fromOutput,date,user):
     ur_s7=''
     global s7_dict
     options = webdriver.ChromeOptions()
