@@ -118,7 +118,7 @@ def get_r(fromInput,fromOutput,date,user):
         button.click()
         print('кликаю кнопку найти')
     except:
-        return(0)
+        return('извините,но ссылки не будет,так как город не найден')
         #return('в одном из городов не найден вокзал, пожалуйста впишите город, в котором есть вокзал')
     ur_rzd=rzd.current_url
     count=0
@@ -205,8 +205,12 @@ def get_s(fromInput,fromOutput,date,user):
     time.sleep(0.2)
     datefalse.click()
     datefalse.click()
-    to_one=s7.find_element_by_xpath('//*[@id="aviaBot"]/div[2]/div[4]/div[2]/div[1]/div/div[2]/div/label') #месяц
-    to_one.click()
+    try:
+        to_one=s7.find_element_by_xpath('//*[@id="aviaBot"]/div[2]/div[4]/div[2]/div[1]/div/div[2]/div/label') #месяц
+        to_one.click()
+    except:
+        s7.quit()
+        s7_dict.update({user:'извините,но ссылки не будет,так как один из городов не найден'})
     now=datetime.datetime.now()
     then=datetime.datetime(year=year1,month=int(month1),day=day1)
     delta=then-now
@@ -289,4 +293,5 @@ def get_s(fromInput,fromOutput,date,user):
         ur_s7=s7.current_url
         s7.quit()
         s7_dict.update({user:ur_s7})
+        ur_s7=''
           
