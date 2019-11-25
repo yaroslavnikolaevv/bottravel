@@ -42,6 +42,7 @@ def get_r(fromInput,fromOutput,date):
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument("--start-maximized")
     options.add_argument("--disable-extensions")
+    options.add_argument('headless')
     prefs = {
     'profile.managed_default_content_setting_values': {
     'cookies': 1,
@@ -121,6 +122,7 @@ def get_r(fromInput,fromOutput,date):
 def get_s(fromInput,fromOutput,date):
     global ur_s7
     options = webdriver.ChromeOptions()
+    options.add_argument('headless')
     options.add_argument('--dns-prefetch-disable')
     options.add_argument('--disable-extensions')
     options.add_argument('--disable-gpu')
