@@ -11,7 +11,7 @@ import datetime
 #import reader
 import os
 from dotenv import load_dotenv
-from multiprocessing import Queue
+
 import codecs
 import urllib.request
 from bs4 import BeautifulSoup as bs
