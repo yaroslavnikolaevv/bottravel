@@ -56,7 +56,7 @@ videos_for_dict={}
 res = ''
 status = ''
 q = []
-def run_pars(args[]):
+def run_pars(args):
     fromInput=args[0]
     fromOutput=args[1]
     date=args[2]
