@@ -180,6 +180,7 @@ def date_registration(message):
         response= Parsers(fromInput=args[0],fromOutput=args[1],date=args[2],user=args[3]).threader()
         res=response.split(":")
         if str(message.chat.id) in res[0]:
+            print('чат ид найден в ответе')
             bot.send_message(message.chat.id, 'Билеты по маршруту {0} - {1} на {2} '.format(fromplace[0].upper() + fromplace.lower()[1:], toplace[0].upper() + toplace.lower()[1:], dateregistration_dict[str(message.chat.id)]) + "\n" +  str( response[response.index(":"):]))      
             bot.send_sticker(message.chat.id, random.choice(lovestickerpack))
             del fromplace_dict[str(message.chat.id)]
@@ -187,21 +188,8 @@ def date_registration(message):
             del dateregistration_dict[str(message.chat.id)]
             del q[0]
         else:
-            dateregistration_dict.update({str(message.chat.id):message.text.lower()})
-            q.append([fromplace_dict[str(message.chat.id)],toplace_dict[str(message.chat.id)],dateregistration_dict[str(message.chat.id)],str(message.chat.id)])
-            print(fromplace_dict[str(message.chat.id)])
-            print(toplace_dict[str(message.chat.id)])
-            print(dateregistration_dict[str(message.chat.id)])
-            args=q[0]
-            #Sendler(fromInput=fromplace_dict[str(message.chat.id)],fromOutput=toplace_dict[str(message.chat.id)],date=dateregistration_dict[str(message.chat.id)]).send()
-            bot.send_message(message.chat.id, 'Ищу билеты по выбранному направлению')
-            bot.send_sticker(message.chat.id, random.choice(loadstickerpack))
-            fromplace = fromplace_dict[str(message.chat.id)]
-            toplace = toplace_dict[str(message.chat.id)]
-            response= Parsers(fromInput=args[0],fromOutput=args[1],date=args[2],user=args[3]).threader()
-            res=response.split(":")
-            bot.send_message(res[0], 'Билеты по маршруту {0} - {1} на {2} '.format(fromplace[0].upper() + fromplace.lower()[1:], toplace[0].upper() + toplace.lower()[1:], dateregistration_dict[str(message.chat.id)]) + "\n" +  str( response[response.index(":"):]))      
-            bot.send_sticker(res[0], random.choice(lovestickerpack))
+            print('чат ид не найден в ответе')
+            print(res[0])
             
 #Блок для команды старт
 @bot.message_handler(commands=['start'])
