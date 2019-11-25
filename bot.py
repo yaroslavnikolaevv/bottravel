@@ -73,62 +73,62 @@ def wikipedia_information(message):
 #Блок команды для такси
 @bot.message_handler(commands=['taxi'])
 def taxi_message(message):
-    bot.send_message(message.chat.id, 'Введите город, в котором вы хотели бы заказать такси')
-    bot.register_next_step_handler(message, taxi_telephone_numbers_message)
+	bot.send_message(message.chat.id, 'Введите город, в котором вы хотели бы заказать такси')
+	bot.register_next_step_handler(message, taxi_telephone_numbers_message)
     
 def taxi_telephone_numbers_message(message):
-    if message.text.lower() in commandlist:
-        exec(commandlist[message.text.lower()])
-    elif message.text.lower() in commandlist_ru:
-        exec(commandlist_ru[message.text.lower()])
-    elif '/' + message.text.lower() in commandlist:
-        exec(commandlist['/' + message.text.lower()])
-    else:
-        global taxidict
-        try:
-            ttnumbers = taxidict[message.text.lower()]
-        except:
-            pass
-        ttnumbers = ttnumbers.split('. ')
-        ttnumbers = '\n'.join(ttnumbers)
-        bot.send_message(message.chat.id, ttnumbers)
+	if message.text.lower() in commandlist:
+		exec(commandlist[message.text.lower()])
+	elif message.text.lower() in commandlist_ru:
+		exec(commandlist_ru[message.text.lower()])
+	elif '/' + message.text.lower() in commandlist:
+		exec(commandlist['/' + message.text.lower()])
+	else:
+		global taxidict
+        	try:
+			ttnumbers = taxidict[message.text.lower()]
+			ttnumbers = ttnumbers.split('. ')
+			ttnumbers = '\n'.join(ttnumbers)
+			bot.send_message(message.chat.id, ttnumbers)
+        	except:
+			bot.reply_to(message, 'Боюсь, что даже мистер Вульф не сможет туда приехать')
 #Блок для разработчиков
 @bot.message_handler(commands=['developers'])
 def developers_message(message):
-    bot.send_message(message.chat.id, 'Если у вас есть идеи по дальнейшему развитию нашего проекта:\nЯрослав: https://vk.com/yarik_tat\nИгорь: https://vk.com/bayanovigor\nВладимир: https://vk.com/ia_ifferus\nРустам: https://vk.com/rustknight7\nДаниэль: https://vk.com/sintirev')
+	bot.send_message(message.chat.id, 'Если у вас есть идеи по дальнейшему развитию нашего проекта:\nЯрослав: https://vk.com/yarik_tat\nИгорь: https://vk.com/bayanovigor\nВладимир: https://vk.com/ia_ifferus\nРустам: https://vk.com/rustknight7\nДаниэль: https://vk.com/sintirev')
 #Блок для поиска билетов
 @bot.message_handler(commands=['tickets', 'route'])
 def tickets_message(message):
-    bot.send_message(message.chat.id, 'Введите город отправления')
-    bot.register_next_step_handler(message, fromplace_registration)
+	bot.send_message(message.chat.id, 'Введите город отправления')
+	bot.register_next_step_handler(message, fromplace_registration)
     
 def fromplace_registration(message):
-    global commandlist
-    global fromplace_dict
-    if message.text.lower() in commandlist:
-        exec(commandlist[message.text.lower()])
-    elif message.text.lower() in commandlist_ru:
-        exec(commandlist_ru[message.text.lower()])
-    elif '/' + message.text.lower() in commandlist:
-        exec(commandlist['/' + message.text.lower()])
-    else:
-        fromplace_dict.update({str(message.chat.id):message.text.lower()})
-        bot.send_message(message.chat.id, 'Введите город назначения')
-        bot.register_next_step_handler(message, toplace_registration)
+	global commandlist
+	global fromplace_dict
+	if message.text.lower() in commandlist:
+		exec(commandlist[message.text.lower()])
+	elif message.text.lower() in commandlist_ru:
+		exec(commandlist_ru[message.text.lower()])
+	elif '/' + message.text.lower() in commandlist:
+		exec(commandlist['/' + message.text.lower()])
+	else:
+		fromplace_dict.update({str(message.chat.id):message.text.lower()})
+		bot.send_message(message.chat.id, 'Введите город назначения')
+		bot.register_next_step_handler(message, toplace_registration)
         
 def toplace_registration(message):
-    global commandlist
-    global toplace_dict
-    if message.text.lower() in commandlist:
-        exec(commandlist[message.text.lower()])
-    elif message.text.lower() in commandlist_ru:
-        exec(commandlist_ru[message.text.lower()])
-    elif '/' + message.text.lower() in commandlist:
-        exec(commandlist['/' + message.text.lower()])
-    else:
-        toplace_dict.update({str(message.chat.id):message.text.lower()})
-        bot.send_message(message.chat.id, 'Введите дату отправления')#rzd
-        bot.register_next_step_handler(message, date_registration)
+	global commandlist
+	global toplace_dict
+	if message.text.lower() in commandlist:
+		exec(commandlist[message.text.lower()])
+	elif message.text.lower() in commandlist_ru:
+		exec(commandlist_ru[message.text.lower()])
+	elif '/' + message.text.lower() in commandlist:
+		exec(commandlist['/' + message.text.lower()])
+	else:
+		toplace_dict.update({str(message.chat.id):message.text.lower()})
+		bot.send_message(message.chat.id, 'Введите дату отправления')#rzd
+		bot.register_next_step_handler(message, date_registration)
         
 def date_registration(message):
 	global commandlist
@@ -160,54 +160,54 @@ def date_registration(message):
 @bot.message_handler(commands=['start'])
 
 def start_message(message):
-    global weatherinformation
-    global lovestickerpack
-    bot.send_message(message.chat.id, 'Привет!\nМеня зовут Travellta !\nВот список моих функций :\n1./start\n2./help\n3./weather\n4./tickets, /route\n5./taxi\n6./music\n7./video\n8./wikipedia\n9./developers', reply_markup=keyboard1)
-    bot.send_sticker(message.chat.id, random.choice(lovestickerpack))
+	global weatherinformation
+	global lovestickerpack
+	bot.send_message(message.chat.id, 'Привет!\nМеня зовут Travellta !\nВот список моих функций :\n1./start\n2./help\n3./weather\n4./tickets, /route\n5./taxi\n6./music\n7./video\n8./wikipedia\n9./developers', reply_markup=keyboard1)
+	bot.send_sticker(message.chat.id, random.choice(lovestickerpack))
 #Блок для погоды
 @bot.message_handler(commands=['weather'])
 def weather_message(message):
-    bot.send_message(message.chat.id, 'Напишите город, погодные условия которого вы хотели бы узнать')
-    bot.register_next_step_handler(message, weather_information)
+	bot.send_message(message.chat.id, 'Напишите город, погодные условия которого вы хотели бы узнать')
+	bot.register_next_step_handler(message, weather_information)
     
 def weather_information(message):
-    place = ''
-    global status
-    global angrystickerpack
-    if message.text.lower() in commandlist:
-        exec(commandlist[message.text.lower()])
-    elif message.text.lower() in commandlist_ru:
-        exec(commandlist_ru[message.text.lower()])
-    elif '/' + message.text.lower() in commandlist:
-        exec(commandlist['/' + message.text.lower()])
-    else:
-        try:
-            place = message.text.lower()
-            observation = owm.weather_at_place(place)
-            weather = observation.get_weather()
-            status = weather.get_detailed_status()
-            temp = weather.get_temperature('celsius')['temp']
-            wind = weather.get_wind()['speed']
-            print(weather)
-            weathercity = message.text[0].upper() + message.text.lower()[1:]
-            bot.send_message(message.chat.id, "Погода города/Weather: " + weathercity + "\nТемпература/Temperature: " + str(temp) + "°C" + "\nНа улице/On the street: " + str.title(status) + "\nСкорость Ветра/Wind speed: " + str(wind) + "м/c")
-            if temp >= 15:
-                bot.send_message(message.chat.id, "Погода-mood: Cамое-то ")
-            elif 15 > temp  and temp > 0:
-                bot.send_message(message.chat.id, "Погода-mood: Накинь что нибудь на себя ")
-            elif temp < 0 and -25 < temp:
-                bot.send_message(message.chat.id, "Погода-mood: Одевайся мать, пора воевать ")
-            elif temp <= -25:
-                bot.send_message(message.chat.id, "Погода-mood: Ты умрёшь, если уйдёшь")
-        except pyowm.exceptions.api_response_error.NotFoundError:
-            bot.reply_to(message, 'Врешь, такого города нет на картах')
-            bot.send_sticker(message.chat.id, random.choice(angrystickerpack))
+	place = ''
+	global status
+	global angrystickerpack
+	if message.text.lower() in commandlist:
+		exec(commandlist[message.text.lower()])
+	elif message.text.lower() in commandlist_ru:
+		exec(commandlist_ru[message.text.lower()])
+	elif '/' + message.text.lower() in commandlist:
+		exec(commandlist['/' + message.text.lower()])
+	else:
+		try:
+			place = message.text.lower()
+			observation = owm.weather_at_place(place)
+			weather = observation.get_weather()
+			status = weather.get_detailed_status()
+			temp = weather.get_temperature('celsius')['temp']
+			wind = weather.get_wind()['speed']
+			print(weather)
+			weathercity = message.text[0].upper() + message.text.lower()[1:]
+			bot.send_message(message.chat.id, "Погода города/Weather: " + weathercity + "\nТемпература/Temperature: " + str(temp) + "°C" + "\nНа улице/On the street: " + str.title(status) + "\nСкорость Ветра/Wind speed: " + str(wind) + "м/c")
+			if temp >= 15:
+				bot.send_message(message.chat.id, "Погода-mood: Cамое-то ")
+			elif 15 > temp  and temp > 0:
+				bot.send_message(message.chat.id, "Погода-mood: Накинь что нибудь на себя ")
+			elif temp < 0 and -25 < temp:
+				bot.send_message(message.chat.id, "Погода-mood: Одевайся мать, пора воевать ")
+			elif temp <= -25:
+				bot.send_message(message.chat.id, "Погода-mood: Ты умрёшь, если уйдёшь")
+		except pyowm.exceptions.api_response_error.NotFoundError:
+			bot.reply_to(message, 'Врешь, такого города нет на картах')
+			bot.send_sticker(message.chat.id, random.choice(angrystickerpack))
 #Блок для помощи
 @bot.message_handler(commands=['help'])
 def help_message(message):
-    global lovestickerpack
-    bot.send_message(message.chat.id, '1./start("старт") - возвращает наш диалог к исходному состоянию\n2./weather("погода") - узнать погоду в любом городе мира\n3./tickets, /route("билеты", "маршрут") - узнать доступные на данный момент билеты\n4./taxi("такси") - узнать номера такси в выбранном городе\n5./music("музыка") - прослушать случайные треки, выбранные нашей командой\n6./video - найти видео по запросу\n7./wikipedia, /wiki("Википедия", "вики") - позволяет узнает краткую информационную сводку из Википедии\n8./developers("разработчики") - узнать контактные данные нашей команды')
-    bot.send_sticker(message.chat.id,random.choice(lovestickerpack))
+	global lovestickerpack
+	bot.send_message(message.chat.id, '1./start("старт") - возвращает наш диалог к исходному состоянию\n2./weather("погода") - узнать погоду в любом городе мира\n3./tickets, /route("билеты", "маршрут") - узнать доступные на данный момент билеты\n4./taxi("такси") - узнать номера такси в выбранном городе\n5./music("музыка") - прослушать случайные треки, выбранные нашей командой\n6./video - найти видео по запросу\n7./wikipedia, /wiki("Википедия", "вики") - позволяет узнает краткую информационную сводку из Википедии\n8./developers("разработчики") - узнать контактные данные нашей команды')
+	bot.send_sticker(message.chat.id,random.choice(lovestickerpack))
 #Блок для музыки
 @bot.message_handler(commands=['music'])
 def music_message(message):
@@ -234,11 +234,11 @@ def playlist(message):
 #Блок для видео
 @bot.message_handler(commands=['video'])
 def video_message(message):
-    global video
-    global video_search
-    global video_search_list
-    bot.send_message(message.chat.id, 'Введите ключевое слово для поиска видео')
-    bot.register_next_step_handler(message, video_search)
+	global video
+	global video_search
+	global video_search_list
+	bot.send_message(message.chat.id, 'Введите ключевое слово для поиска видео')
+	bot.register_next_step_handler(message, video_search)
 
 def video_search(message):
     if message.text.lower() in commandlist:
