@@ -62,7 +62,10 @@ def run_pars(args):
     fromOutput=args[1]
     date=args[2]
     user=args[3]
-    return(Parsers(fromInput,fromOutput,date,user).threader())
+    withuser=Parsers(fromInput,fromOutput,date,user).threader().split(":")
+    withoutuser=withuser[1:]
+    itog=.join(withoutuser)
+    return(itog)
 
 #Блок для советов
 @bot.message_handler(commands=['advice'])
@@ -187,11 +190,14 @@ def date_registration(message):
             
             #если запущено равно нулю запускаем
         else:
+            global loadstickerpack
+            global lovestickerpack
             run=q[0]
-            bot.send_message(run[3],'Ваша очередь, подождите совсем чуть-чуть')
+            bot.send_message(run[3], 'Ищу билеты по выбранным критериям...')
+            bot.send_sticker(run[3], random.choice(loadstickerpack))
             already=1
-            bot.send_message(run[3],run_pars(run))
-
+            bot.send_message(run[3], run_pars(run))
+            bot.send_sticker(run[3], random.choice(lovestickerpack))
             #ран парс-ссылки
             already=0
             del q[0]
