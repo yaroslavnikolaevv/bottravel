@@ -259,9 +259,9 @@ def video_search(message):
 	else:
         	try:
 			video_search = message.text
-        		video_search_list = video_search.split()
-        		video_search = 'https://www.youtube.com/results?search_query='
-        		for i in range(len(video_search_list)):
+			video_search_list = video_search.split()
+			video_search = 'https://www.youtube.com/results?search_query='
+			for i in range(len(video_search_list)):
 				video_search += video_search_list[i]
 				video_search += '+'
 			video_search = video_search[:-1]
