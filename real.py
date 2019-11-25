@@ -64,7 +64,7 @@ def run_pars(args):
     user=args[3]
     withuser=Parsers(fromInput,fromOutput,date,user).threader().split(":")
     withoutuser=withuser[1:]
-    itog=.join(withoutuser)
+    itog=''.join(withoutuser)
     return(itog)
 
 #Блок для советов
