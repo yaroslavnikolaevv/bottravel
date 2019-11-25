@@ -85,12 +85,12 @@ def taxi_telephone_numbers_message(message):
 		exec(commandlist['/' + message.text.lower()])
 	else:
 		global taxidict
-        	try:
+		try:
 			ttnumbers = taxidict[message.text.lower()]
 			ttnumbers = ttnumbers.split('. ')
 			ttnumbers = '\n'.join(ttnumbers)
 			bot.send_message(message.chat.id, ttnumbers)
-        	except:
+		except:
 			bot.reply_to(message, 'Боюсь, что даже мистер Вульф не сможет туда приехать')
 #Блок для разработчиков
 @bot.message_handler(commands=['developers'])
