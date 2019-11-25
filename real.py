@@ -11,6 +11,7 @@ import datetime
 #import reader
 import os
 from dotenv import load_dotenv
+from queue import Queue
 import codecs
 import urllib.request
 from bs4 import BeautifulSoup as bs
@@ -54,7 +55,7 @@ video_search_list = []
 videos_for_dict={}
 res = ''
 status = ''
-queue=0
+q = Queue()
 #Блок для советов
 @bot.message_handler(commands=['advice'])
 def advice_message(message):
@@ -163,54 +164,33 @@ def date_registration(message):
         exec(commandlist['/' + message.text.lower()])
     else:
         global lovestickerpack
-        global queue
+        global q
+        q.put([fromplace_dict[str(message.chat.id)],toplace_dict[str(message.chat.id)],dateregistration_dict[str(message.chat.id)],str(message.chat.id)])
         dateregistration_dict.update({str(message.chat.id):message.text.lower()})
         print(fromplace_dict[str(message.chat.id)])
         print(toplace_dict[str(message.chat.id)])
         print(dateregistration_dict[str(message.chat.id)])
+        args=q.get()
         #Sendler(fromInput=fromplace_dict[str(message.chat.id)],fromOutput=toplace_dict[str(message.chat.id)],date=dateregistration_dict[str(message.chat.id)]).send()
         bot.send_message(message.chat.id, 'Ищу билеты по выбранному направлению')
         bot.send_sticker(message.chat.id, random.choice(loadstickerpack))
         fromplace = fromplace_dict[str(message.chat.id)]
         toplace = toplace_dict[str(message.chat.id)]
-        if queue==0:
-            queue=1
-            response= Parsers(fromInput=fromplace_dict[str(message.chat.id)],fromOutput=toplace_dict[str(message.chat.id)],date=dateregistration_dict[str(message.chat.id)],user=message.chat.id).threader()
-            res=response.split(":")
-            if str(message.chat.id) in res[0]:
-                bot.send_message(message.chat.id, 'Билеты по маршруту {0} - {1} на {2} '.format(fromplace[0].upper() + fromplace.lower()[1:], toplace[0].upper() + toplace.lower()[1:], dateregistration_dict[str(message.chat.id)]) + "\n" +  str( response[response.index(":"):]))      
-                bot.send_sticker(message.chat.id, random.choice(lovestickerpack))
-                del fromplace_dict[str(message.chat.id)]
-                del toplace_dict[str(message.chat.id)]
-                del dateregistration_dict[str(message.chat.id)]
-                queue=0
-            else:
-                bot.send_message(message.chat.id,'попробуйте ещё раз')
-                queue=0
-                print(str(message.chat.id))
-                print(res[0])
+        response= Parsers(fromInput=args[0],fromOutput=args[1],date=args[2],user=args[3]).threader()
+        res=response.split(":")
+        if str(message.chat.id) in res[0]:
+            bot.send_message(message.chat.id, 'Билеты по маршруту {0} - {1} на {2} '.format(fromplace[0].upper() + fromplace.lower()[1:], toplace[0].upper() + toplace.lower()[1:], dateregistration_dict[str(message.chat.id)]) + "\n" +  str( response[response.index(":"):]))      
+            bot.send_sticker(message.chat.id, random.choice(lovestickerpack))
+            del fromplace_dict[str(message.chat.id)]
+            del toplace_dict[str(message.chat.id)]
+            del dateregistration_dict[str(message.chat.id)]
         else:
-            while queue!=0:
-                count=0
-                count=count+1
-            else:
-                queue=1
-                response= Parsers(fromInput=fromplace_dict[str(message.chat.id)],fromOutput=toplace_dict[str(message.chat.id)],date=dateregistration_dict[str(message.chat.id)],user=message.chat.id).threader()
-                res=response.split(":")
-                
-                if str(message.chat.id) in res[0]:
-                    
-                    bot.send_message(message.chat.id, 'Билеты по маршруту {0} - {1} на {2} '.format(fromplace[0].upper() + fromplace.lower()[1:], toplace[0].upper() + toplace.lower()[1:], dateregistration_dict[str(message.chat.id)]) + "\n" +  str( response[response.index(":"):]))    
-                    bot.send_sticker(message.chat.id, random.choice(lovestickerpack))
-                    del fromplace_dict[str(message.chat.id)]
-                    del toplace_dict[str(message.chat.id)]
-                    del dateregistration_dict[str(message.chat.id)]
-                    queue=0
-                else:
-                    bot.send_message(message.chat.id,'попробуйте ещё раз')
-                    queue=0
-                    print(str(message.chat.id))
-                    print(res[0])
+            bot.send_message(res[0], 'Билеты по маршруту {0} - {1} на {2} '.format(fromplace[0].upper() + fromplace.lower()[1:], toplace[0].upper() + toplace.lower()[1:], dateregistration_dict[str(message.chat.id)]) + "\n" +  str( response[response.index(":"):]))      
+            bot.send_sticker(res[0], random.choice(lovestickerpack))
+            del fromplace_dict[str(res[0])]
+            del toplace_dict[str(res[0])]
+            del dateregistration_dict[str(res[0])]
+        
 #Блок для команды старт
 @bot.message_handler(commands=['start'])
 
