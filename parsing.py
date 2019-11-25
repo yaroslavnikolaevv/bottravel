@@ -22,14 +22,7 @@ class Parsers:
     def threader(self):
         global rzd_dict
         global s7_dict
-        try:
-            rzd_dict.popitem(self.user)
-        except:
-            pass
-        try:
-            s7_dict.popitem(self.user)
-        except:
-            pass
+        
         thread1 = Thread(target=get_r,args=(self.fromInput,self.fromOutput,self.date,self.user))
         thread2 = Thread(target=get_s, args=(self.fromInput,self.fromOutput,self.date,self.user))
 
