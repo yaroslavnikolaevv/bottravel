@@ -34,6 +34,8 @@ lovestickerpack = ['CAADAgAD2QADVp29CtGSZtLSYweoFgQ', 'CAADAgAD0gADVp29Cg4FcjZ1g
 questionstickerpack = ['CAADAgAD4wADVp29Cg_4Isytpgs3FgQ', 'CAADAgADEgADwDZPEzO8ngEulQc3FgQ', 'CAADAgADEAADwDZPE-qBiinxHwLoFgQ', 'CAADAgADIAADwDZPE_QPK7o-X_TPFgQ', 'CAADAgAD2wcAAnlc4gkSqCLudDgLbhYE', 'CAADAgADzwcAAnlc4gnrZCnufdBTahYE', 'CAADAgAD2QcAAnlc4gn3Ww8qzk3S3BYE', 'CAADAgAD0gcAAnlc4gmLqZ82yF4OlxYE']
 angrystickerpack = ['CAADAgAD3AADVp29Cpy9Gm5Tg192FgQ', 'CAADAgAD2wADVp29Clxn-p9taVttFgQ', 'CAADAgADywADVp29CllGpcs9gzQoFgQ']
 loadstickerpack = ['CAADAgADGAADwDZPE9b6J7-cahj4FgQ', 'CAADAgAD1QADVp29CveXwRdcmk7nFgQ', 'CAADAgADwAADVp29Ct1dnTI9q-YvFgQ', 'CAADAgAD4QADVp29ClvBlItA-NOgFgQ', 'CAADAgAD5QADVp29CggLFmSVBdGKFgQ']
+#недопустимые символы в названии файла
+symbols=['/','|','*',':','?','\','<','>','"']
 #Блок имен
 developerslist = ['рустам', 'ярослав', 'владимир', 'даниэль', 'игорь']
 nongratlist = ['арина', 'ариша', 'алия']
@@ -314,6 +316,10 @@ def video_search(message):
         yt = YouTube(res)
         stream = yt.streams.first()
         name=stream.title
+        for i in name:
+            if i in symbols:
+                name=str(name[:name.index(i)])+str(name[name.index(i)+1:])
+        print(name)
         stream.download()
         video = open(name+'.mp4', 'rb')
         bot.send_video(message.chat.id, video)
