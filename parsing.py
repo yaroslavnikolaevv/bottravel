@@ -242,6 +242,7 @@ def get_s(fromInput,fromOutput,date,user):
         next_month.click()
         
         print('delta.month=')
+        time.sleep(0.9)
         for i in range(cl):
             next_m=s7.find_element_by_xpath('//*[@id="datepicker2"]/div/div/a[2]')
             next_m.click()
