@@ -270,16 +270,19 @@ def playlist(message):
     elif '/' + message.text.lower() in commandlist:
         exec(commandlist['/' + message.text.lower()])
     else:
-        audiolist = []
-        for i in range(int(message.text)):
-            while True:
-                n = random.randint(1,45)
-                if n not in audiolist:
-                    break
-            audiolist.append(n)
-            audio = open(str(n) + ".mp3", mode='rb')
-            print("opened " + str(n) + ".mp3")
-            bot.send_audio(message.from_user.id, audio, timeout=1000)
+        try:
+            audiolist = []
+            for i in range(int(message.text)):
+                while True:
+                    n = random.randint(1,45)
+                    if n not in audiolist:
+                        break
+                audiolist.append(n)
+                audio = open(str(n) + ".mp3", mode='rb')
+                print("opened " + str(n) + ".mp3")
+                bot.send_audio(message.from_user.id, audio, timeout=1000)
+        except:
+            bot.reply_to(message, 'Такого количества музыки в нашей базе данных нет')
 #Блок для видео
 @bot.message_handler(commands=['video'])
 def video_message(message):
@@ -319,7 +322,6 @@ def video_search(message):
 
             bot.send_message(message.chat.id, res)
         except:
-        
             global questionstickerpack#
             bot.send_message(message.chat.id, 'Видео, связанное с этой темой, пока не сняли')
             bot.send_sticker(message.chat.id, random.choice(questionstickerpack))
