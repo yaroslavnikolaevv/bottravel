@@ -103,10 +103,15 @@ def get_r(fromInput,fromOutput,date,user):
     time.sleep(0.5)
 
     inp.send_keys(Keys.ARROW_DOWN,Keys.ENTER)
-    time.sleep(0.1)
+    time.sleep(0.7)
     print('ввожу город отправления')
-    outp=rzd.find_element_by_id('name1')
-    outp.click()
+    try:
+        outp=rzd.find_element_by_id('name1')
+        outp.click()
+    except:
+        time.sleep(0.5)
+        outp=rzd.find_element_by_id('name1')
+        outp.click()
     time.sleep(0.2)
     outp.send_keys(str(fromOutput))
     outp.click()
