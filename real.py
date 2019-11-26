@@ -159,7 +159,7 @@ def toplace_registration(message):
         exec(commandlist['/' + message.text.lower()])
     else:
         toplace_dict.update({str(message.chat.id):message.text.lower()})
-        bot.send_message(message.chat.id, 'Введите дату отправления')#rzd
+        bot.send_message(message.chat.id, 'Введите дату отправления в формате DD.MM.YYYY')#rzd
         bot.register_next_step_handler(message, date_registration)
         
 def date_registration(message):
@@ -340,6 +340,6 @@ def text_analyze(message):
         bot.reply_to(message, '{0}...{0}...звучит как что-то неприятное'.format(nongratname))
         bot.send_sticker(message.chat.id, random.choice(angrystickerpack))
     else:
-        bot.reply_to(message, 'RUSSIAN, MOTHERFUCKER, DO YOU SPEAK IT ?')
+        bot.reply_to(message, 'Я пока не в состоянии понять ход твоих мыслей')
         bot.send_sticker(message.chat.id, random.choice(questionstickerpack))
 bot.polling()
