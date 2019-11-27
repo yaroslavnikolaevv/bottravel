@@ -21,6 +21,7 @@ token = load_dotenv()
 token = os.getenv('TOKEN')
 #Защита от DDoS
 ddos_defend={}
+count=0
 search_info=0
 #Блок такси
 f = codecs.open( 'taxinumbers.txt', "r", "utf_8_sig" )
@@ -328,7 +329,7 @@ def text_analyze(message):
     global questionstickerpack
     global search_info
     user=message.chat.id
-    count=0
+    global count
     try:
         prev=ddos_defend[user][0] #ищем время предыдущего сообщения
         #нашли время, то есть сообщение НЕ первое
@@ -340,6 +341,8 @@ def text_analyze(message):
             count=count+1
             now=datetime.datetime.now()
             ddos_defend.update={user:[now,count]}
+            search_info=0
+            print("разница во времени:"+str(difference))
         elif difference>=3 and search_info==1:
             try:
             
@@ -349,7 +352,7 @@ def text_analyze(message):
                 print('пользователь:'+user+'; обновленный счётчик:'+str(count)+' Разница между сообщениями:'+str(difference))
                 search_info=0
             except:
-                print('всё пошло по пизде')
+                print('всё пошло по пизде, время больше 3 секунд, счётчик равен'+str(count))
     except:
         #чел написал первый раз
         count=1
@@ -357,7 +360,7 @@ def text_analyze(message):
         
         now=datetime.datetime.now()
         ddos_defend.update({user:[now,count]}) #записываем в словарь время и счётчик=1
-
+	print("счётчик равен "+str(count))
 
 
     if count<4:
