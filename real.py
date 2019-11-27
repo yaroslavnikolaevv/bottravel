@@ -4,7 +4,7 @@ import telebot
 import wikipedia
 import random
 import time, re
-
+minimalq=0
 import pyowm
 import requests
 # from mqtt import *
@@ -192,9 +192,14 @@ def date_registration(message):
         global already
         global ban_list
         dateregistration_dict.update({str(message.chat.id):message.text.lower()})
-
-        q.append([fromplace_dict[str(message.chat.id)],toplace_dict[str(message.chat.id)],dateregistration_dict[str(message.chat.id)],str(message.chat.id)])
-        
+        for i in q:
+            if i>minimalq:
+                minimalq=i
+        if minimalq<3:
+            q.append([fromplace_dict[str(message.chat.id)],toplace_dict[str(message.chat.id)],dateregistration_dict[str(message.chat.id)],str(message.chat.id)])        
+        else:
+            bot.send.message(message.chat.id,'Попробуйте попозже, на данный момент очередь функции забита, напишите через несколько секунд,введите "старт"')
+            bot.register_next_step_handler(message,start_message)
         #добавили поток в очередь
         #ран - очередь от нуля
         #запускаем ран
@@ -225,7 +230,7 @@ def date_registration(message):
 def start_message(message):
     global weatherinformation
     global lovestickerpack
-    bot.send_message(message.chat.id, 'Привет!\nМеня зовут Travellta !\nВот список моих функций :\n1./start\n2./help\n3./weather\n4./tickets, /route\n5./taxi\n6./music\n7./video\n8./placeinfo\n9./developers', reply_markup=keyboard1)
+    bot.send_message(message.chat.id, 'Привет!\nМеня зовут Travellta !\nВот список моих функций :"старт",\n "погода",\n "номера такси" в том или ином городе,\n"музыка" не даст вам заскучать \n "найти видео", мы найдём любое видео ,имеющееся в интернете за вас, в скором времени появится возможность скачивания видео \n4 "информация про город"-мы расскажем вам о любом городе и ,если хотите, о чём-либо ещё \n "разработчики"-контакты разработчиков \n "найти билеты"-мы просмотрим за вас сайты РЖД и S7 \n "советы"-функция поможет не забыть взять в дорогу что-либо, \n А так же Я (Travellta) обладаю искусственным интеллектом, для того,чтобы пообщаться со мной напишите любое слово, например, "привет"', reply_markup=keyboard1)
     bot.send_sticker(message.chat.id, random.choice(lovestickerpack))
 #Блок для погоды
 @bot.message_handler(commands=['weather'])
@@ -400,7 +405,7 @@ def text_analyze(message):
                 bot.register_next_step_handler(message, start_message) 
 
 def ai(message):
-    request = apiai.ApiAI('40eb1f5c8af449fead6756313620120f').text_request() # токен DialogFlow 
+    request = apiai.ApiAI('b8224668b91747c787325f3a9dc18168').text_request() # токен DialogFlow 
     request.lang = 'ru' 
     request.session_id = 'session_1' # сюда можно писать что захотите 
     request.query = message.text 
