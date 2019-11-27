@@ -1,4 +1,4 @@
-#Блок импорта
+
 import telebot
 import wikipedia
 import random
@@ -344,6 +344,21 @@ def text_analyze(message):
         bot.reply_to(message, '{0}...{0}...звучит как что-то неприятное'.format(nongratname))
         bot.send_sticker(message.chat.id, random.choice(angrystickerpack))
     else:
-        bot.reply_to(message, 'Я пока не в состоянии понять ход твоих мыслей')
-        bot.send_sticker(message.chat.id, random.choice(questionstickerpack))
+        ai(message)
+def ai(message):
+    request = apiai.ApiAI('40eb1f5c8af449fead6756313620120f').text_request() # токен DialogFlow 
+    request.lang = 'ru' 
+    request.session_id = 'session_1' # сюда можно писать что захотите 
+    request.query = message.text 
+    response = json.loads(request.getresponse().read().decode('utf-8')) 
+    answer = str(response['result']['fulfillment']['speech']) 
+    if answer != '': 
+       bot.send_message(message.chat.id, answer) 
+       bot.register_next_step_handler(message, ai) 
+    elif message.text.lower() == 'назад': 
+       bot.send_message(message.chat.id, 'Хорошо\nПриятно было с вами пообщаться', reply_markup=keyboard1) 
+       bot.register_next_step_handler(message, start_message) 
+    else: 
+       bot.send_message(message.chat.id, 'Прости, но я тебя не понимаю😓\n' 
+   'Напиши /start или /help и я тебе обязательно постораюсь помощь)')
 bot.polling()
