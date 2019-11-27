@@ -227,7 +227,7 @@ def date_registration(message):
             print('thread is run')
         for thread in runing_threads:
             thread.join()
-           #del runing_threads[runing_threads.index(threading.Thread(target=run_pars,args=run))]
+            del runing_threads[runing_threads.index(thread))]
         while str(message.chat.id) not in name_ended_thread:
             pass
         else:
