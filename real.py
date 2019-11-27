@@ -230,7 +230,7 @@ def date_registration(message):
 
         for thread in runing_threads:
             if thread.is_alive():
-                thread.join()
+                threading._shutdown()
                 print("this thread is joined:"+str(thread.name))
             running_thread=[]
         while str(message.chat.id) not in name_ended_thread:
