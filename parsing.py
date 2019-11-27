@@ -50,7 +50,7 @@ def get_r(fromInput,fromOutput,date,user):
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument("--start-maximized")
     options.add_argument("--disable-extensions")
-    options.add_argument('headless')
+    
     prefs = {
     'profile.managed_default_content_setting_values': {
     'cookies': 1,
@@ -101,8 +101,7 @@ def get_r(fromInput,fromOutput,date,user):
     time.sleep(0.1)
     inp.send_keys(str(fromInput))
     inp.click()
-    time.sleep(0.5)
-
+    WebDriverWait(rzd, 10).until(EC.visibility_of_element_located((By.xpath,"/html/body/div[6]")))
     inp.send_keys(Keys.ARROW_DOWN,Keys.ENTER)
     time.sleep(0.7)
     print('ввожу город отправления')
@@ -116,7 +115,7 @@ def get_r(fromInput,fromOutput,date,user):
     time.sleep(0.2)
     outp.send_keys(str(fromOutput))
     outp.click()
-    time.sleep(0.5)
+    WebDriverWait(rzd, 10).until(EC.visibility_of_element_located((By.xpath,"/html/body/div[7]")))
     print('ввожу город прибытия')
     outp.send_keys(Keys.ARROW_DOWN,Keys.ENTER)
     time.sleep(0.1)
@@ -140,7 +139,7 @@ def get_s(fromInput,fromOutput,date,user):
     ur_s7=''
     global s7_dict
     options = webdriver.ChromeOptions()
-    options.add_argument('headless')
+    
     options.add_argument('--dns-prefetch-disable')
     options.add_argument('--disable-extensions')
     options.add_argument('--disable-gpu')
@@ -207,7 +206,7 @@ def get_s(fromInput,fromOutput,date,user):
     time.sleep(0.2)
     outp.send_keys(str(fromOutput))
     print('пауза 0.9 сек и подтверждаю')
-    time.sleep(0.6)
+    time.sleep(1)
     outp.send_keys(Keys.ENTER)
     time.sleep(0.2)
     datefalse=s7.find_element_by_xpath('//*[@id="date-opener2"]') #календарь
@@ -318,4 +317,4 @@ def get_s(fromInput,fromOutput,date,user):
         s7.quit()
         s7_dict.update({user:ur_s7})
         ur_s7=''
-          
+
