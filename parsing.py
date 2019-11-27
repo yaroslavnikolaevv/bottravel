@@ -211,9 +211,10 @@ def get_s(fromInput,fromOutput,date,user):
     time.sleep(0.2)
     datefalse=s7.find_element_by_xpath('//*[@id="date-opener2"]') #календарь
     print('ебашу календарь')
-    time.sleep(0.2)
+    WebDriverWait(s7, 4).until(EC.element_to_be_clickable((By.ID, "date-opener2")))
     datefalse.click()
     datefalse.click()
+    WebDriverWait(s7, 4).until(EC.element_to_be_clickable((By.ID, "aviaBot")))
     try:
         to_one=s7.find_element_by_xpath('//*[@id="aviaBot"]/div[2]/div[4]/div[2]/div[1]/div/div[2]/div/label') #месяц
         to_one.click()
@@ -233,16 +234,27 @@ def get_s(fromInput,fromOutput,date,user):
         print('key:'+key)
         print('delta.month=0')
     elif(now.day+delta.days)//calendar[key][3] == 1:
+        try:
+            WebDriverWait(s7, 4).until(EC.element_to_be_clickable((By.ID, "ui-datepicker-next-avia")))
+        except:
+            return(0)
         next_month=s7.find_element_by_xpath('//*[@id="ui-datepicker-next-avia"]')
         next_month.click()
         
         print('delta.month='+str(delta.days//30))
+        try:
+            WebDriverWait(s7, 4).until(EC.element_to_be_clickable((By.ID, "ui-datepicker-next-avia")))
+        except:
+            return(0)
     else:
         next_month=s7.find_element_by_xpath('//*[@id="ui-datepicker-next-avia"]') #месяц
         next_month.click()
         
         print('delta.month=')
-        time.sleep(0.9)
+        try:
+            WebDriverWait(s7, 4).until(EC.element_to_be_clickable((By.ID, "datepicker2")))
+        except:
+            return(0)
         for i in range(cl):
             next_m=s7.find_element_by_xpath('//*[@id="datepicker2"]/div/div/a[2]')
             next_m.click()
@@ -282,7 +294,7 @@ def get_s(fromInput,fromOutput,date,user):
                 print('day'+str(day))
         print(raw)
         print(day)
-        time.sleep(0.8)
+        time.sleep(0.1)
         x=s7.find_element_by_css_selector('#datepicker2 > div > table > tbody > tr:nth-child('+str(raw)+') > td:nth-child('+str(day)+') > a')
         x.click()
         #datepicker2 > div > table > tbody > tr:nth-child(5) > td:nth-child(6) > a
@@ -296,7 +308,7 @@ def get_s(fromInput,fromOutput,date,user):
         
         try:
             confirm=s7.find_element_by_xpath('//*[@id="search-btn-expand-bot"]')
-            time.sleep(0.1)
+            WebDriverWait(s7, 4).until(EC.element_to_be_clickable((By.ID, "search-btn-expand-bot")))
             confirm.click()
         except:
             #return('в одном из городов нет аэропорта, введите город, в котором есть аэропорт или попробуйте еще раз')
