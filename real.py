@@ -365,10 +365,14 @@ def text_analyze(message):
             ddos_defend.update({user:[now,count]}) #записываем в словарь время и счётчик=1
             print("Первый раз,счётчик равен "+str(count))
 
-    if count==3:
+    if count==5:
         ban_list.append(user)
-        count=4
+        count=6
         bot.send_message(message.chat.id,"Ваши сообщения были восприняты как спам, вы забанены... Разбан будет только на следующий день")
+    elif count==3:
+        bot.send_message(message.chat.id, 'Вы пишите слишком быстро, возможно вы пытаетесь заДДоСить меня.. Пожалуйста, подождите несколько секунд')
+    elif count==4:
+        bot.send_message(message.chat.id, 'Вы слишком быстро отвечаете,пожалуйста подождите около четырёх секунд, ваши сообщения воспринимаются мной как спам. При продолжении вы будете забанены')           
     if user not in ban_list:
         print('доступ разрешён')
         if '/' + message.text.lower() in commandlist:
