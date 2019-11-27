@@ -244,11 +244,9 @@ def date_registration(message):
             del ended_threads[str(message.chat.id)]
             for i in ended_threads:
                 print("Ended thread:"+str(ended_threads[i]))
-            for i in name_ended_thread:
-                print("Ended thread name:"+str(name_ended_thread[i]))
+            
             del name_ended_thread[name_ended_thread.index(str(message.chat.id))]
-            for i in name_ended_thread:
-                print("Ended thread name:"+str(name_ended_thread[i]))
+            
         # {user:str(itog)}
         
             #ран парс-ссылки
