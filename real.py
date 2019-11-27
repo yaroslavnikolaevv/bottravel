@@ -1,4 +1,5 @@
-
+import apiai
+imports json
 import telebot
 import wikipedia
 import random
