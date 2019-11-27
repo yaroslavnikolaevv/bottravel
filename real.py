@@ -1,5 +1,5 @@
 import apiai
-imports json
+import json
 import telebot
 import wikipedia
 import random
