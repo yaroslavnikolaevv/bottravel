@@ -262,9 +262,6 @@ def help_message(message):
     bot.send_sticker(message.chat.id,random.choice(lovestickerpack))
 #Блок для музыки
 @bot.message_handler(commands=['music'])
-def music_message(message):
-    bot.send_message(message.chat.id, 'Введите количество треков для прослушивания')
-    bot.register_next_step_handler(message, playlist)
 def playlist(message):
     if message.text.lower() in commandlist:
             exec(commandlist[message.text.lower()])
@@ -275,7 +272,7 @@ def playlist(message):
     else:
         try:
             audiolist = []
-            for i in range(int(message.text)):
+            for i in range(2):
                 while True:
                     n = random.randint(1,45)
                     if n not in audiolist:
@@ -366,4 +363,4 @@ def ai(message):
        bot.send_message(message.chat.id, answer,reply_markup=keyboardExit) 
        bot.register_next_step_handler(message, ai) 
     
-bot.polling()
+bot.infinity_polling(True)
