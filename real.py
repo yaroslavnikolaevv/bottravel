@@ -70,11 +70,11 @@ queue = []
 ended_threads={}
 name_ended_thread=[]
 already=0
-def run_pars(from,to,date5,user5):
+def run_pars(fromplace5,toplace5,date5,user5):
     global ended_threads
     global name_ended_thread
-    fromInput=from
-    fromOutput=to
+    fromInput=fromplace5
+    fromOutput=toplace5
     date=date5
     user=user5
     withuser=Parsers(fromInput,fromOutput,date,user).threader().split(":")
