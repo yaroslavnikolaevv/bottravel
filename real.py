@@ -214,7 +214,7 @@ def date_registration(message):
             #ран парс-ссылки
             already=0
             del q[0]
-            del ban_list(ban_list.index(run[3]))
+            del ban_list[ban_list.index(run[3])]
             
 #Блок для команды старт
 @bot.message_handler(commands=['start'])
