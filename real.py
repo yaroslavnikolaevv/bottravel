@@ -262,7 +262,7 @@ def help_message(message):
     bot.send_sticker(message.chat.id,random.choice(lovestickerpack))
 #Блок для музыки
 @bot.message_handler(commands=['music'])
-def playlist(message):
+def music_message(message):
     if message.text.lower() in commandlist:
             exec(commandlist[message.text.lower()])
     elif message.text.lower() in commandlist_ru:
@@ -280,7 +280,7 @@ def playlist(message):
                 audiolist.append(n)
                 audio = open(str(n) + ".mp3", mode='rb')
                 print("opened " + str(n) + ".mp3")
-                bot.send_audio(message.from_user.id, audio, timeout=1000)
+                bot.send_audio(message.from_user.id, audio, timeout=25)
         except:
             bot.reply_to(message, 'Такого количества музыки в нашей базе данных нет')
 #Блок для видео
