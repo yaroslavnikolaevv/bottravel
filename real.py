@@ -189,6 +189,7 @@ def date_registration(message):
         global lovestickerpack
         global q
         global already
+        global ban_list
         dateregistration_dict.update({str(message.chat.id):message.text.lower()})
 
         q.append([fromplace_dict[str(message.chat.id)],toplace_dict[str(message.chat.id)],dateregistration_dict[str(message.chat.id)],str(message.chat.id)])
