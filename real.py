@@ -17,6 +17,7 @@ import urllib.request
 from bs4 import BeautifulSoup as bs
 from parsing import *
 #Блок токена
+
 token = load_dotenv()
 token = os.getenv('TOKEN')
 #Защита от DDoS
@@ -225,20 +226,25 @@ def date_registration(message):
         for thread in runing_threads:
             if not thread.is_alive():
                 thread.start()
-                print("this thread is run:"+str(thread))
+                print("this thread is run:"+thread)
+                print(runing_threads)
+
         for thread in runing_threads:
             if thread.is_alive():
                 thread.join()
-                print("this thread is joined:"+str(thread))
+                print("this thread is joined:"+thread)
                 del runing_threads[runing_threads.index(thread)]
         while str(message.chat.id) not in name_ended_thread:
             pass
         else:
             mesg=ended_threads[str(message.chat.id)]
             bot.send_message(message.chat.id, mesg)
-            
+            print("Ended thread:"+ended_threads)
             del ended_threads[str(message.chat.id)]
+            print("Ended thread:"+ended_threads)
+            print("Ended thread name:"+name_ended_thread)
             del name_ended_thread[name_ended_thread.index(str(message.chat.id))]
+            print("Ended thread name:"+name_ended_thread)
         # {user:str(itog)}
         
             #ран парс-ссылки
