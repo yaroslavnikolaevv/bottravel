@@ -282,7 +282,7 @@ def get_s(fromInput,fromOutput,date,user):
                 print('day'+str(day))
         print(raw)
         print(day)
-        time.sleep(0.2)
+        time.sleep(0.8)
         x=s7.find_element_by_css_selector('#datepicker2 > div > table > tbody > tr:nth-child('+str(raw)+') > td:nth-child('+str(day)+') > a')
         x.click()
         #datepicker2 > div > table > tbody > tr:nth-child(5) > td:nth-child(6) > a
