@@ -342,7 +342,9 @@ def text_analyze(message):
     global questionstickerpack
     global search_info
     user=message.chat.id
+    
     global count
+    print(str(user))
     if user not in ban_list:
         try:
             prev=ddos_defend[user][0] #ищем время предыдущего сообщения
@@ -377,13 +379,11 @@ def text_analyze(message):
             ddos_defend.update({user:[now,count]}) #записываем в словарь время и счётчик=1
             print("Первый раз,счётчик равен "+str(count))
 
-    if count==5:
+    if count==4:
         ban_list.append(user)
         count=6
-        bot.send_message(message.chat.id,"Ваши сообщения были восприняты как спам, вы забанены... Разбан будет только на следующий день")
+        bot.send_message(message.chat.id,"Ваши сообщения были восприняты как спам, вы забанены... Разбан будет только на следующий день\n Ваш ид:"+str(user)+'сообщите его разработчикам для разбана')
     elif count==3:
-        bot.send_message(message.chat.id, 'Вы пишите слишком быстро, возможно вы пытаетесь заДДоСить меня.. Пожалуйста, подождите несколько секунд')
-    elif count==4:
         bot.send_message(message.chat.id, 'Вы слишком быстро отвечаете,пожалуйста подождите около четырёх секунд, ваши сообщения воспринимаются мной как спам. При продолжении вы будете забанены')           
     if user not in ban_list:
         print('доступ разрешён')
