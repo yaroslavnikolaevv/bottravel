@@ -327,7 +327,7 @@ def text_analyze(message):
     global angrystickerpack
     global questionstickerpack
     global search_info
-    
+    user=message.chat.id
 
     try:
         prev=ddos_defend[user][0] #ищем время предыдущего сообщения
