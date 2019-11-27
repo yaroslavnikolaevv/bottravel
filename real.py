@@ -380,7 +380,7 @@ def text_analyze(message):
                 bot.register_next_step_handler(message, start_message) 
     else:
         bot.send_message("Ваши сообщения были восприняты как спам, вы забанены... Разбан будет только на следующий день")
-    def ai(message):
+def ai(message):
     request = apiai.ApiAI('40eb1f5c8af449fead6756313620120f').text_request() # токен DialogFlow 
     request.lang = 'ru' 
     request.session_id = 'session_1' # сюда можно писать что захотите 
