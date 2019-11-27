@@ -21,6 +21,7 @@ token = load_dotenv()
 token = os.getenv('TOKEN')
 #Защита от DDoS
 ddos_defend={}
+ban_list=[]
 count=0
 search_info=0
 #Блок такси
@@ -363,8 +364,10 @@ def text_analyze(message):
         ddos_defend.update({user:[now,count]}) #записываем в словарь время и счётчик=1
         print("Первый раз,счётчик равен "+str(count))
 
-
-    if count<4:
+    if count==3:
+        ban_list.append(user)
+        bot.send_message(message.chat.id,"Ваши сообщения были восприняты как спам, вы забанены... Разбан будет только на следующий день")
+    if user not in ban_list:
         print('доступ разрешён')
         if '/' + message.text.lower() in commandlist:
             exec(commandlist['/' + message.text.lower()])
@@ -384,8 +387,7 @@ def text_analyze(message):
             except:
                 bot.send_message(message.chat.id,'Я тебя не понимаю')
                 bot.register_next_step_handler(message, start_message) 
-    else:
-        bot.send_message(message.chat.id,"Ваши сообщения были восприняты как спам, вы забанены... Разбан будет только на следующий день")
+
 def ai(message):
     request = apiai.ApiAI('40eb1f5c8af449fead6756313620120f').text_request() # токен DialogFlow 
     request.lang = 'ru' 
