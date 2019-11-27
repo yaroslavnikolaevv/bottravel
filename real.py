@@ -263,26 +263,16 @@ def help_message(message):
 #Блок для музыки
 @bot.message_handler(commands=['music'])
 def music_message(message):
-    if message.text.lower() in commandlist:
-            exec(commandlist[message.text.lower()])
-    elif message.text.lower() in commandlist_ru:
-        exec(commandlist_ru[message.text.lower()])
-    elif '/' + message.text.lower() in commandlist:
-        exec(commandlist['/' + message.text.lower()])
-    else:
-        try:
-            audiolist = []
-            for i in range(2):
-                while True:
-                    n = random.randint(1,45)
-                    if n not in audiolist:
-                        break
-                audiolist.append(n)
-                audio = open(str(n) + ".mp3", mode='rb')
-                print("opened " + str(n) + ".mp3")
-                bot.send_audio(message.from_user.id, audio, timeout=25)
-        except:
-            bot.reply_to(message, 'Такого количества музыки в нашей базе данных нет')
+	audiolist = []
+	for i in range(2):
+		while True:
+			n = random.randint(1,45)
+			if n not in audiolist:
+				break
+		audiolist.append(n)
+		audio = open(str(n) + ".mp3", mode='rb')
+		print("opened " + str(n) + ".mp3")
+		bot.send_audio(message.from_user.id, audio, timeout=25)
 #Блок для видео
 @bot.message_handler(commands=['video'])
 def video_message(message):
