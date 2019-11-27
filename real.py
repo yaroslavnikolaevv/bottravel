@@ -45,6 +45,8 @@ keyboard1.row('номера такси', 'найти билеты', 'погод�
 keyboard1.row('музыка', 'найти видео', 'информация про город')
 keyboard1.row('советы', 'помощь')
 keyboard1.row('старт', 'контакты разработчиков')
+keyboardExit= telebot.types.ReplyKeyboardMarkup(True, True)
+keyboardExit.row('Назад к функционалу')
 #Блок погоды
 owm = pyowm.OWM('6d00d1d4e704068d70191bad2673e0cc', language = 'ru, en')
 bot = telebot.TeleBot(token)
@@ -345,7 +347,11 @@ def text_analyze(message):
         bot.reply_to(message, '{0}...{0}...звучит как что-то неприятное'.format(nongratname))
         bot.send_sticker(message.chat.id, random.choice(angrystickerpack))
     else:
-        ai(message)
+        try:
+            ai(message)
+        except:
+            bot.send_message(message.chat.id,'Я тебя не понимаю')
+            bot.register_next_step_handler(message, start_message) 
 def ai(message):
     request = apiai.ApiAI('40eb1f5c8af449fead6756313620120f').text_request() # токен DialogFlow 
     request.lang = 'ru' 
@@ -356,11 +362,11 @@ def ai(message):
     if message.text.lower() == 'назад': 
        bot.send_message(message.chat.id, 'Хорошо\nПриятно было с вами пообщаться', reply_markup=keyboard1) 
        bot.register_next_step_handler(message, start_message) 
-    if (answer != '') and (message.text.lower()!='назад'): 
-       bot.send_message(message.chat.id, answer) 
+    if (answer != '') and (message.text.lower()!='назад к функционалу'): 
+       bot.send_message(message.chat.id, answer,reply_markup=keyboardExit) 
        bot.register_next_step_handler(message, ai) 
     
     else: 
-       bot.send_message(message.chat.id, 'Прости, но я тебя не понимаю😓\n' 
+       bot.send_message(message.chat.id, 'Я тебя не понимаю😓\n' 
    'Напиши /start или /help и я тебе обязательно постораюсь помощь)')
 bot.polling()
