@@ -226,7 +226,7 @@ def date_registration(message):
             if not thread.is_alive():
                 thread.start()
                 print("this thread is run:"+str(thread.name))
-                print(will_runing_threads)
+                print(runing_threads)
 
         for thread in runing_threads:
             if thread.is_alive():
