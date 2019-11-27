@@ -235,7 +235,7 @@ def date_registration(message):
             del runing_threads[runing_threads.index(thread)]
         for i in runing_threads:
             print("ранинг триды:"+runing_threads[i])
-        while str(message.chat.id) not in user_of_ended_thread:
+        while str(message.chat.id) not in name_ended_thread:
             pass
         else:
             mesg=ended_threads[str(message.chat.id)] # user:links
