@@ -337,6 +337,7 @@ def text_analyze(message):
         now = datetime.datetime.now()
         difference=int((now-prev).total_seconds())
         search_info=1
+        print("Не первый раз,счётчик равен "+str(count))
         if difference<3 and search_info==1:
             count=count+1
             now=datetime.datetime.now()
@@ -360,7 +361,7 @@ def text_analyze(message):
         
         now=datetime.datetime.now()
         ddos_defend.update({user:[now,count]}) #записываем в словарь время и счётчик=1
-	print("счётчик равен "+str(count))
+        print("Первый раз,счётчик равен "+str(count))
 
 
     if count<4:
