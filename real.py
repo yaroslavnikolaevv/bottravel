@@ -361,7 +361,7 @@ def ai(message):
     answer = str(response['result']['fulfillment']['speech']) 
     if message.text.lower() == 'назад к функционалу': 
        bot.send_message(message.chat.id, 'Хорошо\nПриятно было с вами пообщаться', reply_markup=keyboard1) 
-       bot.register_next_step_handler(message, start_message) 
+      # bot.register_next_step_handler(message, start_message) 
     if (answer != '') and (message.text.lower()!='назад к функционалу'): 
        bot.send_message(message.chat.id, answer,reply_markup=keyboardExit) 
        bot.register_next_step_handler(message, ai) 
