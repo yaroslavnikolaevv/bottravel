@@ -341,7 +341,7 @@ def text_analyze(message):
         if difference<3 and search_info==1:
             count=count+1
             now=datetime.datetime.now()
-            ddos_defend.update={user:[now,count]}
+            ddos_defend.update({user:[now,count]})
             search_info=0
             print("разница во времени:"+str(difference))
         elif difference>=3 and search_info==1:
