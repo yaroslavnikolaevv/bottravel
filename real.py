@@ -180,7 +180,6 @@ def toplace_registration(message):
         toplace_dict.update({str(message.chat.id):message.text.lower()})
         bot.send_message(message.chat.id, 'Введите дату отправления в формате DD.MM.YYYY')#rzd
         bot.register_next_step_handler(message, date_registration)
-        
 def date_registration(message):
     global commandlist
     global fromplace_dict
@@ -223,29 +222,29 @@ def date_registration(message):
             else:
                 pass
         #запускаем все триды
-        for thread in runing_threads:
+        for thread in will_runing_threads:
             if not thread.is_alive():
                 thread.start()
                 print("this thread is run:"+str(thread.name))
-                print(runing_threads)
+                print(will_runing_threads)
 
         for thread in runing_threads:
             if thread.is_alive():
                 thread.join()
-                print("this thread is joined:"+str(thread))
+                print("this thread is joined:"+str(thread.name))
                 del runing_threads[runing_threads.index(thread)]
-        while str(message.chat.id) not in name_ended_thread:
+        while str(message.chat.id) not in user_of_ended_thread:
             pass
         else:
-            mesg=ended_threads[str(message.chat.id)]
+            mesg=ended_threads[str(message.chat.id)] # user:links
             bot.send_message(message.chat.id, mesg)
-            for i in ended_threads:
-                print("Ended thread:"+str(ended_threads[i]))
-            del ended_threads[str(message.chat.id)]
-            for i in ended_threads:
-                print("Ended thread:"+str(ended_threads[i]))
-            
             del name_ended_thread[name_ended_thread.index(str(message.chat.id))]
+            del ended_threads[str(message.chat.id)]
+            try:
+                print(ended_threads[str(message.chat.id)]) #проверяем удалилось ли инфа про юзера и его ссылки
+            except:
+                print('инфа осталась')
+            
             
         # {user:str(itog)}
         
