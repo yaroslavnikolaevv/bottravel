@@ -363,4 +363,4 @@ def ai(message):
        bot.send_message(message.chat.id, answer,reply_markup=keyboardExit) 
        bot.register_next_step_handler(message, ai) 
     
-bot.infinity_polling(True)
+bot.polling(none_stop=True)
