@@ -240,15 +240,15 @@ def date_registration(message):
             mesg=ended_threads[str(message.chat.id)]
             bot.send_message(message.chat.id, mesg)
             for i in ended_threads:
-                print("Ended thread:"+ended_threads[i])
+                print("Ended thread:"+str(ended_threads[i]))
             del ended_threads[str(message.chat.id)]
             for i in ended_threads:
-                print("Ended thread:"+ended_threads[i])
+                print("Ended thread:"+str(ended_threads[i]))
             for i in name_ended_thread:
-                print("Ended thread name:"+name_ended_thread[i])
+                print("Ended thread name:"+str(name_ended_thread[i]))
             del name_ended_thread[name_ended_thread.index(str(message.chat.id))]
             for i in name_ended_thread:
-                print("Ended thread name:"+name_ended_thread[i])
+                print("Ended thread name:"+str(name_ended_thread[i]))
         # {user:str(itog)}
         
             #ран парс-ссылки
