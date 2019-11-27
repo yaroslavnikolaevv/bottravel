@@ -206,10 +206,11 @@ def date_registration(message):
             global loadstickerpack
             global lovestickerpack
             run=q[0]
+            ban_list.append(run[3])
             bot.send_message(run[3], 'Ищу билеты по выбранным критериям...На время поиска ваши команды не будут восприиниматься для правильности поиска')
             bot.send_sticker(run[3], random.choice(loadstickerpack))
             already=1
-            ban_list.append(run[3])	
+            	
             bot.send_message(run[3], run_pars(run))
             bot.send_sticker(run[3], random.choice(lovestickerpack))
             #ран парс-ссылки
