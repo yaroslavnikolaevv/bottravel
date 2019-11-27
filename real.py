@@ -366,7 +366,4 @@ def ai(message):
        bot.send_message(message.chat.id, answer,reply_markup=keyboardExit) 
        bot.register_next_step_handler(message, ai) 
     
-    else: 
-       bot.send_message(message.chat.id, 'Я тебя не понимаю😓\n' 
-   'Напиши "назад к функционалу" и я постараюсь тебе помочь')
 bot.polling()
