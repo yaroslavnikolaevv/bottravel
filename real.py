@@ -233,7 +233,7 @@ def date_registration(message):
         else:
             mesg=ended_threads[str(message.chat.id)]
             bot.send_message(message.chat.id, mesg)
-            del runing_threads[]
+            
             del ended_threads[str(message.chat.id)]
             del name_ended_thread[name_ended_thread.index(str(message.chat.id))]
         # {user:str(itog)}
