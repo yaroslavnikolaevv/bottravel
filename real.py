@@ -331,38 +331,39 @@ def text_analyze(message):
     global search_info
     user=message.chat.id
     global count
-    try:
-        prev=ddos_defend[user][0] #ищем время предыдущего сообщения
-        #нашли время, то есть сообщение НЕ первое
-        count=ddos_defend[user][1] #сколько сообщений отправил с маленьким таймингом, первое сообщение = 1
-        now = datetime.datetime.now()
-        difference=int((now-prev).total_seconds())
-        search_info=1
-        print("Не первый раз,счётчик равен "+str(count))
-        if difference<3 and search_info==1:
-            count=count+1
-            now=datetime.datetime.now()
-            ddos_defend.update({user:[now,count]})
-            search_info=0
-            print("разница во времени:"+str(difference))
-        elif difference>=3 and search_info==1:
-            try:
-            
+    if user not in ban_list:
+        try:
+            prev=ddos_defend[user][0] #ищем время предыдущего сообщения
+            #нашли время, то есть сообщение НЕ первое
+            count=ddos_defend[user][1] #сколько сообщений отправил с маленьким таймингом, первое сообщение = 1
+            now = datetime.datetime.now()
+            difference=int((now-prev).total_seconds())
+            search_info=1
+            print("Не первый раз,счётчик равен "+str(count))
+            if difference<3 and search_info==1:
+                count=count+1
                 now=datetime.datetime.now()
-                count=1
                 ddos_defend.update({user:[now,count]})
-                print('пользователь:'+user+'; обновленный счётчик:'+str(count)+' Разница между сообщениями:'+str(difference))
                 search_info=0
-            except:
-                print('всё пошло по пизде, время больше 3 секунд, счётчик равен'+str(count))
-    except KeyError:
-        #чел написал первый раз
-        count=1
-        search_info=0
-        
-        now=datetime.datetime.now()
-        ddos_defend.update({user:[now,count]}) #записываем в словарь время и счётчик=1
-        print("Первый раз,счётчик равен "+str(count))
+                print("разница во времени:"+str(difference))
+            elif difference>=3 and search_info==1:
+                try:
+                
+                    now=datetime.datetime.now()
+                    count=1
+                    ddos_defend.update({user:[now,count]})
+                    print('пользователь:'+user+'; обновленный счётчик:'+str(count)+' Разница между сообщениями:'+str(difference))
+                    search_info=0
+                except:
+                    print('всё пошло по пизде, время больше 3 секунд, счётчик равен'+str(count))
+        except KeyError:
+            #чел написал первый раз
+            count=1
+            search_info=0
+            
+            now=datetime.datetime.now()
+            ddos_defend.update({user:[now,count]}) #записываем в словарь время и счётчик=1
+            print("Первый раз,счётчик равен "+str(count))
 
     if count==3:
         ban_list.append(user)
