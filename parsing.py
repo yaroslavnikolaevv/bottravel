@@ -7,6 +7,7 @@ import time, re
 from threading import Thread
 from selenium.webdriver.support.ui import WebDriverWait
 import datetime
+from selenium.webdriver.support import expected_conditions as EC
 
 
 
