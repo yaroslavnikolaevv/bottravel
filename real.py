@@ -222,7 +222,7 @@ def date_registration(message):
             else:
                 pass
         #запускаем все триды
-        for thread in will_runing_threads:
+        for thread in runing_threads:
             if not thread.is_alive():
                 thread.start()
                 print("this thread is run:"+str(thread.name))
@@ -232,7 +232,9 @@ def date_registration(message):
             if thread.is_alive():
                 thread.join()
                 print("this thread is joined:"+str(thread.name))
-                del runing_threads[runing_threads.index(thread)]
+            del runing_threads[runing_threads.index(thread)]
+        for i in runing_threads:
+            print("ранинг триды:"+runing_threads[i])
         while str(message.chat.id) not in user_of_ended_thread:
             pass
         else:
