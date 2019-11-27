@@ -398,6 +398,6 @@ def ai(message):
       # bot.register_next_step_handler(message, start_message) 
     if (answer != '') and (message.text.lower()!='назад к функционалу'): 
        bot.send_message(message.chat.id, answer,reply_markup=keyboardExit) 
-       bot.register_next_step_handler(message, ai) 
+       bot.register_next_step_handler(message, text_analyze) 
     
 bot.polling(none_stop=True)
