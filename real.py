@@ -223,11 +223,12 @@ def date_registration(message):
                 pass
         #запускаем все триды
         for thread in runing_threads:
-            thread.start()
-            print('thread is run')
+            if not thread.is_alive():
+                thread.start()
         for thread in runing_threads:
-            thread.join()
-            del runing_threads[runing_threads.index(thread)]
+            if thread.is_alive():
+                thread.join()
+                del runing_threads[runing_threads.index(thread)]
         while str(message.chat.id) not in name_ended_thread:
             pass
         else:
