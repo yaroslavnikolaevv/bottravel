@@ -89,10 +89,12 @@ def get_r(fromInput,fromOutput,date,user):
     rzd_url = "http://rzd.ru/"
     rzd.get(rzd_url)
     datin=rzd.find_element_by_css_selector('#date0')
+    time.sleep(0.5)
     datin.click()
     for i in range(10):
         datin.send_keys(Keys.BACK_SPACE)
     datin.send_keys(date)
+    time.sleep(0.5)
     gray_box=rzd.find_element_by_css_selector('#container > tbody > tr > td > table > tbody > tr > td.leftCol > div:nth-child(3)')
     gray_box.click()
     print('ввёл дату')
@@ -119,12 +121,13 @@ def get_r(fromInput,fromOutput,date,user):
     time.sleep(1)
     print('ввожу город прибытия')
     outp.send_keys(Keys.ARROW_DOWN,Keys.ENTER)
-    time.sleep(0.1)
+    time.sleep(0.5)
     print('ввёл')
     try:
         button=rzd.find_element_by_xpath('//*[@id="Submit"]')
         button.click()
         print('кликаю кнопку найти')
+        print('кликнул')
     except:
         rzd.quit()
         rzd_dict.update({user:'извините,но ссылки не будет,так как один из городов не найден'})
