@@ -4,7 +4,7 @@ import telebot
 import wikipedia
 import random
 import time, re
-
+import threading
 import pyowm
 import requests
 # from mqtt import *
@@ -24,6 +24,7 @@ ddos_defend={}
 ban_list=[]
 count=0
 search_info=0
+runing_threads=[]
 #Блок такси
 f = codecs.open( 'taxinumbers.txt', "r", "utf_8_sig" )
 taxicities = f.read()
@@ -65,9 +66,13 @@ video_search_list = []
 videos_for_dict={}
 res = ''
 status = ''
-q = []
+queue = []
+ended_threads={}
+name_ended_thread=[]
 already=0
 def run_pars(args):
+    global ended_threads
+    global name_ended_thread
     fromInput=args[0]
     fromOutput=args[1]
     date=args[2]
@@ -75,11 +80,13 @@ def run_pars(args):
     withuser=Parsers(fromInput,fromOutput,date,user).threader().split(":")
     withoutuser=withuser[1:]
     itog=':'.join(withoutuser)
-    return(itog)
+    ended_threads.update({str(user):str(itog)})
+    name_ended_thread.append(str(user))
 
 #Блок для советов
 @bot.message_handler(commands=['advice'])
 def advice_message(message):
+
     bot.send_message(message.chat.id, 'Возможно вам понадобятся следущие вещи:')
     bot.send_message(message.chat.id, 'Документы:\nпаспорт: внутренний или загран; документы для ребенка: 1) паспорт, 2) свидетельство о рождении, 3) согласие на выезд из России, если ребенок едет за границу без родителей; наличные деньги; билеты на самолет, поезд, автобус; брони отелей; водительские права; копия паспорта; страховой полис путешественника')
     bot.send_message(message.chat.id, 'Техника и гаджеты в дорогу: \ncмартфон и зарядка; внешний жесткий диск; дорожный утюг; маленький электрический чайник; наушники; ноутбук и зарядка; переходник для розеток; плеер; тройник, удлинитель или сетевой фильтр; фен; фотоаппарат, зарядка, карты памяти, сумка для камеры; штатив, монопод, палка для селфи; электронная книга')
@@ -187,37 +194,52 @@ def date_registration(message):
         exec(commandlist['/' + message.text.lower()])
     else:
         global lovestickerpack
-        global q
-        global already
-        global ban_list
+        global queue
+        global already        
+        global loadstickerpack
+        global lovestickerpack
+        
+        global runing_threads
+        global ended_threads
+        global name_ended_thread
         dateregistration_dict.update({str(message.chat.id):message.text.lower()})
-
-        q.append([fromplace_dict[str(message.chat.id)],toplace_dict[str(message.chat.id)],dateregistration_dict[str(message.chat.id)],str(message.chat.id)])
+        queue.append([fromplace_dict[str(message.chat.id)],toplace_dict[str(message.chat.id)],dateregistration_dict[str(message.chat.id)],str(message.chat.id)])
         
         #добавили поток в очередь
-        #ран - очередь от нуля
-        #запускаем ран
-        #пока запущено не равно нулю-пауза
-        while already!=0:
-            time.sleep(0.1)
-            
-            #если запущено равно нулю запускаем
-        else:
-            global loadstickerpack
-            global lovestickerpack
-            run=q[0]
-            ban_list.append(run[3])
-            bot.send_message(run[3], 'Ищу билеты по выбранным критериям...На время поиска ваши команды не будут восприиниматься для правильности поиска')
+        #ран - элемент очереди
+        #
+        #   
+        #если ран не запущен, то ебашим в триды его, потом запускаем все триды
+        #если ран запущен то фиг с ним   
+        for run in queue:
+
+            bot.send_message(run[3], 'Ищу билеты по выбранным критериям...')
             bot.send_sticker(run[3], random.choice(loadstickerpack))
-            already=1
-            	
-            bot.send_message(run[3], run_pars(run))
-            bot.send_sticker(run[3], random.choice(lovestickerpack))
-            #ран парс-ссылки
-            already=0
-            del q[0]
-            del ban_list[ban_list.index(run[3])]
             
+            if (threading.Thread(target=run_pars,args=run)) not in runing_threads:
+                runing_threads.append(threading.Thread(target=run_pars,args=run))
+                
+            else:
+                pass
+        #запускаем все триды
+        for thread in runing_threads:
+            thread.start()
+            print('thread is run')
+        for thread in runing_threads:
+            thread.join()
+            del runing_threads[runing_threads.index(threading.Thread(target=run_pars,args=run))]
+        while str(message.chat.id) not in name_ended_thread:
+            pass
+        else:
+            mesg=ended_threads[str(message.chat.id)]
+            bot.send_message(message.chat.id, mesg)
+            del runing_threads[]
+            del ended_threads[str(message.chat.id)]
+            del name_ended_thread[name_ended_thread.index(str(message.chat.id))]
+        # {user:str(itog)}
+        
+            #ран парс-ссылки
+        
 #Блок для команды старт
 @bot.message_handler(commands=['start'])
 
@@ -273,16 +295,16 @@ def help_message(message):
 #Блок для музыки
 @bot.message_handler(commands=['music'])
 def music_message(message):
-	audiolist = []
-	for i in range(2):
-		while True:
-			n = random.randint(1,45)
-			if n not in audiolist:
-				break
-		audiolist.append(n)
-		audio = open(str(n) + ".mp3", mode='rb')
-		print("opened " + str(n) + ".mp3")
-		bot.send_audio(message.from_user.id, audio)
+    audiolist = []
+    for i in range(2):
+        while True:
+            n = random.randint(1,45)
+            if n not in audiolist:
+                break
+        audiolist.append(n)
+        audio = open(str(n) + ".mp3", mode='rb')
+        print("opened " + str(n) + ".mp3")
+        bot.send_audio(message.from_user.id, audio)
 #Блок для видео
 @bot.message_handler(commands=['video'])
 def video_message(message):
