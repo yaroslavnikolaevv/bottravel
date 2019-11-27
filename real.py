@@ -4,7 +4,7 @@ import telebot
 import wikipedia
 import random
 import time, re
-import time
+
 import pyowm
 import requests
 # from mqtt import *
@@ -19,6 +19,9 @@ from parsing import *
 #Блок токена
 token = load_dotenv()
 token = os.getenv('TOKEN')
+#Защита от DDoS
+ddos_defend={}
+search_info=0
 #Блок такси
 f = codecs.open( 'taxinumbers.txt', "r", "utf_8_sig" )
 taxicities = f.read()
@@ -47,6 +50,7 @@ keyboard1.row('советы', 'помощь')
 keyboard1.row('старт', 'контакты разработчиков')
 keyboardExit= telebot.types.ReplyKeyboardMarkup(True, True)
 keyboardExit.row('Назад к функционалу')
+req_us={}
 #Блок погоды
 owm = pyowm.OWM('6d00d1d4e704068d70191bad2673e0cc', language = 'ru, en')
 bot = telebot.TeleBot(token)
@@ -272,7 +276,7 @@ def music_message(message):
 		audiolist.append(n)
 		audio = open(str(n) + ".mp3", mode='rb')
 		print("opened " + str(n) + ".mp3")
-		bot.send_audio(message.from_user.id, audio, timeout=25)
+		bot.send_audio(message.from_user.id, audio)
 #Блок для видео
 @bot.message_handler(commands=['video'])
 def video_message(message):
@@ -318,28 +322,65 @@ def video_search(message):
 #Блок для обработки текста
 @bot.message_handler(content_types=['text'])
 def text_analyze(message):
+    global ddos_defend
     global lovestickerpack
     global angrystickerpack
     global questionstickerpack
-    if '/' + message.text.lower() in commandlist:
-        exec(commandlist['/' + message.text.lower()])
-    elif message.text.lower() in commandlist_ru:
-        exec(commandlist_ru[message.text.lower()])
-    elif message.text.lower() in developerslist:
-        developername = message.text[0].upper() + message.text.lower()[1:]
-        bot.reply_to(message, 'в моей системе рейтинга {0} стоит на первом месте'.format(developername))
-        bot.send_sticker(message.chat.id, random.choice(lovestickerpack))
-    elif message.text.lower() in nongratlist:
-        nongratname = message.text[0].upper() + message.text.lower()[1:]
-        bot.reply_to(message, '{0}...{0}...звучит как что-то неприятное'.format(nongratname))
-        bot.send_sticker(message.chat.id, random.choice(angrystickerpack))
-    else:
+    global search_info
+    
+
+    try:
+        prev=ddos_defend[user][0] #ищем время предыдущего сообщения
+        #нашли время, то есть сообщение НЕ первое
+        count=ddos_defend[user][1] #сколько сообщений отправил с маленьким таймингом, первое сообщение = 1
+        now = datetime.datetime.now()
+        difference=int((now-prev).total_seconds())
+        search_info=1
+    except:
+        #чел написал первый раз
+        count=1
+        search_info=0
+        now=datetime.datetime.now()
+        ddos_defend.update({user:[now,count]}) #записываем в словарь время и счётчик=1
+    if difference<3 and search_info==1:
+        count=count+1
+        now=datetime.datetime.now()
+        ddos_defend.update={user:[now,count]}
+    elif difference>=3 and search_info==1:
         try:
-            ai(message)
+            
+            now=datetime.datetime.now()
+            count=1
+            ddos_defend.update({user:[now,count]})
+            print('пользователь:'+user+'; обновленный счётчик:'+str(count)+' Разница между сообщениями:'+str(difference))
+            search_info=0
         except:
-            bot.send_message(message.chat.id,'Я тебя не понимаю')
-            bot.register_next_step_handler(message, start_message) 
-def ai(message):
+            print('всё пошло по пизде')
+
+
+    if count<4:
+        print('доступ разрешён')
+        if '/' + message.text.lower() in commandlist:
+            exec(commandlist['/' + message.text.lower()])
+        elif message.text.lower() in commandlist_ru:
+            exec(commandlist_ru[message.text.lower()])
+        elif message.text.lower() in developerslist:
+            developername = message.text[0].upper() + message.text.lower()[1:]
+            bot.reply_to(message, 'в моей системе рейтинга {0} стоит на первом месте'.format(developername))
+            bot.send_sticker(message.chat.id, random.choice(lovestickerpack))
+        elif message.text.lower() in nongratlist:
+            nongratname = message.text[0].upper() + message.text.lower()[1:]
+            bot.reply_to(message, '{0}...{0}...звучит как что-то неприятное'.format(nongratname))
+            bot.send_sticker(message.chat.id, random.choice(angrystickerpack))
+        else:
+            try:
+                ai(message)
+            except:
+                bot.send_message(message.chat.id,'Я тебя не понимаю')
+                bot.register_next_step_handler(message, start_message) 
+    else:
+        bot.send_message("Ваши сообщения были восприняты как спам, вы забанены... Разбан будет только на следующий день")
+    def ai(message):
     request = apiai.ApiAI('40eb1f5c8af449fead6756313620120f').text_request() # токен DialogFlow 
     request.lang = 'ru' 
     request.session_id = 'session_1' # сюда можно писать что захотите 
