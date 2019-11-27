@@ -354,7 +354,7 @@ def text_analyze(message):
                 search_info=0
             except:
                 print('всё пошло по пизде, время больше 3 секунд, счётчик равен'+str(count))
-    except:
+    except KeyError:
         #чел написал первый раз
         count=1
         search_info=0
