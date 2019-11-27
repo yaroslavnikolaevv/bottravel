@@ -4,7 +4,7 @@ import telebot
 import wikipedia
 import random
 import time, re
-import threading
+
 import pyowm
 import requests
 # from mqtt import *
@@ -17,7 +17,6 @@ import urllib.request
 from bs4 import BeautifulSoup as bs
 from parsing import *
 #Блок токена
-
 token = load_dotenv()
 token = os.getenv('TOKEN')
 #Защита от DDoS
@@ -25,7 +24,6 @@ ddos_defend={}
 ban_list=[]
 count=0
 search_info=0
-runing_threads=[]
 #Блок такси
 f = codecs.open( 'taxinumbers.txt', "r", "utf_8_sig" )
 taxicities = f.read()
@@ -67,22 +65,17 @@ video_search_list = []
 videos_for_dict={}
 res = ''
 status = ''
-queue = []
-ended_threads={}
-name_ended_thread=[]
+q = []
 already=0
-def run_pars(fromplace5,toplace5,date5,user5):
-    global ended_threads
-    global name_ended_thread
-    fromInput=fromplace5
-    fromOutput=toplace5
-    date=date5
-    user=user5
+def run_pars(args):
+    fromInput=args[0]
+    fromOutput=args[1]
+    date=args[2]
+    user=args[3]
     withuser=Parsers(fromInput,fromOutput,date,user).threader().split(":")
     withoutuser=withuser[1:]
     itog=':'.join(withoutuser)
-    ended_threads.update({str(user):str(itog)})
-    name_ended_thread.append(str(user))
+    return(itog)
 
 #Блок для советов
 @bot.message_handler(commands=['advice'])
@@ -180,6 +173,7 @@ def toplace_registration(message):
         toplace_dict.update({str(message.chat.id):message.text.lower()})
         bot.send_message(message.chat.id, 'Введите дату отправления в формате DD.MM.YYYY')#rzd
         bot.register_next_step_handler(message, date_registration)
+        
 def date_registration(message):
     global commandlist
     global fromplace_dict
@@ -194,62 +188,37 @@ def date_registration(message):
         exec(commandlist['/' + message.text.lower()])
     else:
         global lovestickerpack
-        global queue
-        global already        
-        global loadstickerpack
-        global lovestickerpack
-        
-        global runing_threads
-        global ended_threads
-        global name_ended_thread
+        global q
+        global already
+        global ban_list
         dateregistration_dict.update({str(message.chat.id):message.text.lower()})
-        queue.append([fromplace_dict[str(message.chat.id)],toplace_dict[str(message.chat.id)],dateregistration_dict[str(message.chat.id)],str(message.chat.id)])
+
+        q.append([fromplace_dict[str(message.chat.id)],toplace_dict[str(message.chat.id)],dateregistration_dict[str(message.chat.id)],str(message.chat.id)])
         
         #добавили поток в очередь
-        #ран - элемент очереди
-        #
-        #   
-        #если ран не запущен, то ебашим в триды его, потом запускаем все триды
-        #если ран запущен то фиг с ним   
-        for run in queue:
-
+        #ран - очередь от нуля
+        #запускаем ран
+        #пока запущено не равно нулю-пауза
+        while already!=0:
+            time.sleep(0.1)
+            
+            #если запущено равно нулю запускаем
+        else:
+            global loadstickerpack
+            global lovestickerpack
+            run=q[0]
+            ban_list.append(run[3])
             bot.send_message(run[3], 'Ищу билеты по выбранным критериям...')
             bot.send_sticker(run[3], random.choice(loadstickerpack))
-            
-            if (threading.Thread(target=run_pars,args=run)) not in runing_threads:
-                runing_threads.append(threading.Thread(target=run_pars,args=run))
+            already=1
                 
-            else:
-                pass
-        #запускаем все триды
-        for thread in runing_threads:
-            if not thread.is_alive():
-                thread.start()
-                print("this thread is run:"+str(thread.name))
-                print(runing_threads)
-
-        for thread in runing_threads:
-            if thread.is_alive():
-                threading._shutdown()
-                print("this thread is joined:"+str(thread.name))
-            running_thread=[]
-        while str(message.chat.id) not in name_ended_thread:
-            pass
-        else:
-            mesg=ended_threads[str(message.chat.id)] # user:links
-            bot.send_message(message.chat.id, mesg)
-            del name_ended_thread[name_ended_thread.index(str(message.chat.id))]
-            del ended_threads[str(message.chat.id)]
-            try:
-                print(ended_threads[str(message.chat.id)]) #проверяем удалилось ли инфа про юзера и его ссылки
-            except:
-                print('инфа осталась')
-            
-            
-        # {user:str(itog)}
-        
+            bot.send_message(run[3], run_pars(run))
+            bot.send_sticker(run[3], random.choice(lovestickerpack))
             #ран парс-ссылки
-        
+            already=0
+            del q[0]
+            del ban_list[ban_list.index(run[3])]
+            
 #Блок для команды старт
 @bot.message_handler(commands=['start'])
 
@@ -431,7 +400,7 @@ def text_analyze(message):
                 bot.register_next_step_handler(message, start_message) 
 
 def ai(message):
-    request = apiai.ApiAI('b8224668b91747c787325f3a9dc18168').text_request() # токен DialogFlow 
+    request = apiai.ApiAI('40eb1f5c8af449fead6756313620120f').text_request() # токен DialogFlow 
     request.lang = 'ru' 
     request.session_id = 'session_1' # сюда можно писать что захотите 
     request.query = message.text 
@@ -445,3 +414,4 @@ def ai(message):
        bot.register_next_step_handler(message, text_analyze) 
     
 bot.polling(none_stop=True)
+
