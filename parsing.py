@@ -42,6 +42,7 @@ def get_r(fromInput,fromOutput,date,user):
     ur_rzd= ""
     global rzd_dict
     options = webdriver.ChromeOptions()
+    options.add_argument('headless')
     options.add_argument('--dns-prefetch-disable')
     options.add_argument('--disable-extensions')
     options.add_argument('--disable-gpu')
@@ -139,7 +140,7 @@ def get_s(fromInput,fromOutput,date,user):
     ur_s7=''
     global s7_dict
     options = webdriver.ChromeOptions()
-    
+    options.add_argument('headless')
     options.add_argument('--dns-prefetch-disable')
     options.add_argument('--disable-extensions')
     options.add_argument('--disable-gpu')
