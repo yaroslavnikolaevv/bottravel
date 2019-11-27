@@ -353,12 +353,13 @@ def ai(message):
     request.query = message.text 
     response = json.loads(request.getresponse().read().decode('utf-8')) 
     answer = str(response['result']['fulfillment']['speech']) 
-    if answer != '': 
-       bot.send_message(message.chat.id, answer) 
-       bot.register_next_step_handler(message, ai) 
-    elif message.text.lower() == 'назад': 
+    if message.text.lower() == 'назад': 
        bot.send_message(message.chat.id, 'Хорошо\nПриятно было с вами пообщаться', reply_markup=keyboard1) 
        bot.register_next_step_handler(message, start_message) 
+    if (answer != '') and (message.text.lower()!='назад'): 
+       bot.send_message(message.chat.id, answer) 
+       bot.register_next_step_handler(message, ai) 
+    
     else: 
        bot.send_message(message.chat.id, 'Прости, но я тебя не понимаю😓\n' 
    'Напиши /start или /help и я тебе обязательно постораюсь помощь)')
