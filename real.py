@@ -359,7 +359,7 @@ def ai(message):
     request.query = message.text 
     response = json.loads(request.getresponse().read().decode('utf-8')) 
     answer = str(response['result']['fulfillment']['speech']) 
-    if message.text.lower() == 'назад': 
+    if message.text.lower() == 'назад к функционалу': 
        bot.send_message(message.chat.id, 'Хорошо\nПриятно было с вами пообщаться', reply_markup=keyboard1) 
        bot.register_next_step_handler(message, start_message) 
     if (answer != '') and (message.text.lower()!='назад к функционалу'): 
@@ -368,5 +368,5 @@ def ai(message):
     
     else: 
        bot.send_message(message.chat.id, 'Я тебя не понимаю😓\n' 
-   'Напиши /start или /help и я тебе обязательно постораюсь помощь)')
+   'Напиши "назад к функционалу" и я постараюсь тебе помочь')
 bot.polling()
