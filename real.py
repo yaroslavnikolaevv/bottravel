@@ -328,7 +328,7 @@ def text_analyze(message):
     global questionstickerpack
     global search_info
     user=message.chat.id
-
+    count=0
     try:
         prev=ddos_defend[user][0] #ищем время предыдущего сообщения
         #нашли время, то есть сообщение НЕ первое
@@ -336,27 +336,28 @@ def text_analyze(message):
         now = datetime.datetime.now()
         difference=int((now-prev).total_seconds())
         search_info=1
+        if difference<3 and search_info==1:
+            count=count+1
+            now=datetime.datetime.now()
+            ddos_defend.update={user:[now,count]}
+        elif difference>=3 and search_info==1:
+            try:
+            
+                now=datetime.datetime.now()
+                count=1
+                ddos_defend.update({user:[now,count]})
+                print('пользователь:'+user+'; обновленный счётчик:'+str(count)+' Разница между сообщениями:'+str(difference))
+                search_info=0
+            except:
+                print('всё пошло по пизде')
     except:
         #чел написал первый раз
         count=1
         search_info=0
-        differnce=4
+        
         now=datetime.datetime.now()
         ddos_defend.update({user:[now,count]}) #записываем в словарь время и счётчик=1
-    if difference<3 and search_info==1:
-        count=count+1
-        now=datetime.datetime.now()
-        ddos_defend.update={user:[now,count]}
-    elif difference>=3 and search_info==1:
-        try:
-            
-            now=datetime.datetime.now()
-            count=1
-            ddos_defend.update({user:[now,count]})
-            print('пользователь:'+user+'; обновленный счётчик:'+str(count)+' Разница между сообщениями:'+str(difference))
-            search_info=0
-        except:
-            print('всё пошло по пизде')
+
 
 
     if count<4:
