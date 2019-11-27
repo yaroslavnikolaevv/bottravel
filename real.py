@@ -340,7 +340,7 @@ def text_analyze(message):
         #чел написал первый раз
         count=1
         search_info=0
-	difference=4
+        differnce=4
         now=datetime.datetime.now()
         ddos_defend.update({user:[now,count]}) #записываем в словарь время и счётчик=1
     if difference<3 and search_info==1:
