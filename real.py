@@ -367,6 +367,7 @@ def text_analyze(message):
 
     if count==3:
         ban_list.append(user)
+        count=4
         bot.send_message(message.chat.id,"Ваши сообщения были восприняты как спам, вы забанены... Разбан будет только на следующий день")
     if user not in ban_list:
         print('доступ разрешён')
