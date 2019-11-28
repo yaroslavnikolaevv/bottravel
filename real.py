@@ -358,7 +358,7 @@ def text_analyze(message):
                 
                 now=datetime.datetime.now()
                 ddos_defend.update({i:[now,1]})
-            ban_list={}
+            ban_list=[]
         elif message.text.lower()=="забаненные":
             all=""
             for i in ban_list:
