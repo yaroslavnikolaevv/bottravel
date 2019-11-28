@@ -348,11 +348,15 @@ def text_analyze(message):
     user=str(message.chat.id)
     if user=="744417229":
         if message.text.lower()=="разбан":
-            id_r=message.text.lower().split(":")[1]
-            del ban_list[id_r]
+            id_r=str(int(message.text[6:]))
+            del ban_list[str(id_r)]
+            now=datetime.datetime.now()
+            ddos_defend.update({id_r:[now,1]})
         elif message.text.lower()=="разбанить всех":
             for i in ban_list:
                 del ban_list[i]
+                now=datetime.datetime.now()
+                ddos_defend.update({i:[now,1]})
         elif message.text.lower()=="забаненные":
             all=""
             for i in ban_list:
