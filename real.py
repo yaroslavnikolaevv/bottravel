@@ -194,12 +194,11 @@ def date_registration(message):
         global already
         global ban_list
         dateregistration_dict.update({str(message.chat.id):message.text.lower()})
-        for i in q:
-            if i>minimalq:
-                minimalq=i
+   
        
-        if minimalq<3:
-            q.append([fromplace_dict[str(message.chat.id)],toplace_dict[str(message.chat.id)],dateregistration_dict[str(message.chat.id)],str(message.chat.id)])        
+        if len(q)<3:
+            q.append([fromplace_dict[str(message.chat.id)],toplace_dict[str(message.chat.id)],dateregistration_dict[str(message.chat.id)],str(message.chat.id)])    
+            bot.send_message(q[len(q-1)][3],"Вы добавлены в очередь по поиску билетов,ожидайте. Когда вам высветится уведомление о начале поиска команды могут быть недоступны до завершения поиска")
         else:
             bot.send.message(message.chat.id,'Попробуйте попозже, на данный момент очередь функции забита, напишите через несколько секунд,введите "старт"')
             bot.register_next_step_handler(message,start_message)
