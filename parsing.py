@@ -119,7 +119,7 @@ def get_r(fromInput,fromOutput,date,user):
     time.sleep(0.2)
     outp.send_keys(str(fromOutput))
     outp.click()
-    time.sleep(1,5)
+    time.sleep(1.5)
     print('ввожу город прибытия')
     outp.send_keys(Keys.ARROW_DOWN,Keys.ENTER)
     time.sleep(0.5)
