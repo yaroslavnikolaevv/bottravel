@@ -364,7 +364,7 @@ def text_analyze(message):
                 all=all+str(i)+"\n"
             bot.send_message("744417229",str(all))
     global count
-    print(str(user))
+    
     if user not in ban_list:
         try:
             prev=ddos_defend[user][0] #ищем время предыдущего сообщения
@@ -389,7 +389,7 @@ def text_analyze(message):
                     print('пользователь:'+user+'; обновленный счётчик:'+str(count)+' Разница между сообщениями:'+str(difference))
                     search_info=0
                 except:
-                    print('всё пошло по пизде, время больше 3 секунд, счётчик равен'+str(count))
+                    print(' время больше 3 секунд, счётчик равен'+str(count))
         except KeyError:
             #чел написал первый раз
             count=1
@@ -397,7 +397,7 @@ def text_analyze(message):
             
             now=datetime.datetime.now()
             ddos_defend.update({user:[now,count]}) #записываем в словарь время и счётчик=1
-            print("Первый раз,счётчик равен "+str(count))
+            
 
     if count==4:
         ban_list.append(user)
@@ -406,7 +406,7 @@ def text_analyze(message):
     elif count==3:
         bot.send_message(message.chat.id, 'Вы слишком быстро отвечаете,пожалуйста подождите около четырёх секунд, ваши сообщения воспринимаются мной как спам. При продолжении вы будете забанены')           
     if user not in ban_list:
-        print('доступ разрешён')
+        
         if '/' + message.text.lower() in commandlist:
             exec(commandlist['/' + message.text.lower()])
         elif message.text.lower() in commandlist_ru:
