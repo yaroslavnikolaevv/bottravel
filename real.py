@@ -341,8 +341,21 @@ def text_analyze(message):
     global angrystickerpack
     global questionstickerpack
     global search_info
-    user=message.chat.id
-    
+    global ban_list
+
+    user=str(message.chat.id)
+    if user=="744417229":
+        if message.text.lower()=="разбан":
+            id_r=message.text.lower().split(":")[1]
+            del ban_list[id_r]
+        elif message.text.lower()=="разбанить всех":
+            for i in ban_list:
+                del ban_list[i]
+        elif message.text.lower()=="забаненные":
+            all=""
+            for i in ban_list:
+                all=all+str(i)+"\n"
+            bot.send_message("744417229",str(all))
     global count
     print(str(user))
     if user not in ban_list:
@@ -382,7 +395,7 @@ def text_analyze(message):
     if count==4:
         ban_list.append(user)
         count=6
-        bot.send_message(message.chat.id,"Ваши сообщения были восприняты как спам, вы забанены... Разбан будет только на следующий день\n Ваш ид:"+str(user)+'сообщите его разработчикам для разбана')
+        bot.send_message(message.chat.id,"Ваши сообщения были восприняты как спам, вы забанены... Автоматический разбан будет только на следующий день\n Ваш ид:"+str(user)+'сообщите его разработчикам для разбана')
     elif count==3:
         bot.send_message(message.chat.id, 'Вы слишком быстро отвечаете,пожалуйста подождите около четырёх секунд, ваши сообщения воспринимаются мной как спам. При продолжении вы будете забанены')           
     if user not in ban_list:
