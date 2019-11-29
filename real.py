@@ -280,7 +280,7 @@ def weather_information(message):
             temp = weather.get_temperature('celsius')['temp']
             wind = weather.get_wind()['speed']
             weathercity = message.text[0].upper() + message.text.lower()[1:]
-            bot.send_message(message.chat.id, '{0}{1}{2}{3}{4}'.format(weather, status, temp, wind, weathercity))
+            bot.send_message(message.chat.id, 'Погода в городе {0} :\nТемпература : {1}°C\nПогодные условия : {2}\nСкорость ветра : {3} м/с'.format(weathercity, temp, status, wind))
         except:
             try:
                 nd = {"й" : "j", "ц" : "c", "у" : "u", "к" : "k", "е" : "e", "н" : "n", "г" : "g", "ш" : "sh", "щ" : "shh", "з" : "z",
@@ -295,7 +295,7 @@ def weather_information(message):
                 temp = weather.get_temperature('celsius')['temp']
                 wind = weather.get_wind()['speed']
                 weathercity = message.text[0].upper() + message.text.lower()[1:]
-                bot.send_message(message.chat.id, '{0}{1}{2}{3}{4}'.format(weather, status, temp, wind, weathercity))
+                bot.send_message(message.chat.id, 'Погода в городе {0} :\nТемпература : {1}°C\nПогодные условия : {2}\nСкорость ветра : {3} м/с'.format(weathercity, temp, status, wind))
             except:
                 bot.reply_to(message, 'Извините, в моей базе данных пока нет такого города')
                 bot.send_sticker(message.chat.id, random.choice(questionstickerpack))
