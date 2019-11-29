@@ -283,16 +283,15 @@ def weather_information(message):
             bot.send_message(message.chat.id, '{0}{1}{2}{3}{4}'.format(weather, status, temp, wind, weathercity))
         except:
             try:
-                def transliterate():
-                    global place
+                def transliterate(arg):
                     nd = {"й" : "j", "ц" : "c", "у" : "u", "к" : "k", "е" : "e", "н" : "n", "г" : "g", "ш" : "sh", "щ" : "shh", "з" : "z",
 			      "х" : "h", "ф" : "f", "ы" : "y", "в" : "v", "а" : "a", "п" : "p", "р" : "r", "о" : "o", "л" : "l", "д" : "d", "ж" : "zh",
 			      "э" : "je", "я" : "ya", "ч" : "ch", "с" : "s", "м" : "m", "и" : "i", "т" : "t", "б" : "b", "ю" : "ju", "ё" : "jo"}
-                    fplace = [place[i] for i in range(len(place))]
+                    fplace = [arg[i] for i in range(len(arg))]
                     fplace = [nd[i] for i in fplace]
                     fplace = ''.join(fweathercity)
-                    place = fplace
-                transliterate()
+                    return fplace
+                print(transliterate(place))
                 print(place)
                 observation = owm.weather_at_place(place)
                 weather = observation.get_weather()
