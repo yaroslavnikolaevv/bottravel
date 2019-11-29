@@ -55,7 +55,7 @@ keyboardExit= telebot.types.ReplyKeyboardMarkup(True, True)
 keyboardExit.row('Назад к функционалу')
 req_us={}
 #Блок погоды
-owm = pyowm.OWM('6d00d1d4e704068d70191bad2673e0cc', language = 'ru, en')
+owm = pyowm.OWM('6d00d1d4e704068d70191bad2673e0cc')
 bot = telebot.TeleBot(token)
 #Блок переменных
 fromplace_dict={}
@@ -252,8 +252,6 @@ def weather_information(message):
     elif '/' + message.text.lower() in commandlist:
         exec(commandlist['/' + message.text.lower()])
     else:
-        if message.text.lower()=="сочи":
-            place = "sochi"
         try:
             place = message.text.lower()
             observation = owm.weather_at_place(place)
@@ -261,9 +259,15 @@ def weather_information(message):
             status = weather.get_detailed_status()
             temp = weather.get_temperature('celsius')['temp']
             wind = weather.get_wind()['speed']
-            print(weather)
             weathercity = message.text[0].upper() + message.text.lower()[1:]
-            bot.send_message(message.chat.id, "Погода города/Weather: " + weathercity + "\nТемпература/Temperature: " + str(temp) + "°C" + "\nНа улице/On the street: " + str.title(status) + "\nСкорость Ветра/Wind speed: " + str(wind) + "м/c")
+            print(place)
+            print(observation)
+            print(weather)
+            print(status)
+            print(temp)
+            print(wind)
+            print(weathercity)
+            bot.send_message(message.chat.id, )
             if temp >= 15:
                 bot.send_message(message.chat.id, "Погода-mood: Cамое-то ")
             elif 15 > temp  and temp > 0:
@@ -329,8 +333,6 @@ def video_search(message):
 
             else:
                 res = 'https://www.youtube.com' + links[1]
-
-
             bot.send_message(message.chat.id, res)
         except:
             global questionstickerpack#
@@ -401,11 +403,11 @@ def text_analyze(message):
             ddos_defend.update({user:[now,count]}) #записываем в словарь время и счётчик=1
             
 
-    if count==4:
+    if count == 4:
         ban_list.append(user)
-        count=6
+        count  =6
         bot.send_message(message.chat.id,"Ваши сообщения были восприняты как спам, вы забанены... Автоматический разбан будет только на следующий день\n Ваш ид:"+str(user)+'сообщите его разработчикам для разбана')
-    elif count==3:
+    elif count == 3:
         bot.send_message(message.chat.id, 'Вы слишком быстро отвечаете,пожалуйста подождите около четырёх секунд, ваши сообщения воспринимаются мной как спам. При продолжении вы будете забанены')           
     if user not in ban_list:
         
