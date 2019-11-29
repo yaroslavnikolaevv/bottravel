@@ -79,6 +79,19 @@ def run_pars(args):
 	withoutuser = withuser[1:]
 	itog = ':'.join(withoutuser)
 	return(itog)
+class read_feedback:
+        def read(self):
+                
+                r=open('feedback.txt',mode='r')
+                
+                for line in r:
+
+                        bylo+=line
+
+                r.close()
+
+                bylo=bylo+'\n'
+                return bylo
 
 #Блок для советов
 @bot.message_handler(commands=['advice'])
