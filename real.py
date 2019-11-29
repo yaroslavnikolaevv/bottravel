@@ -130,8 +130,11 @@ def taxi_telephone_numbers_message(message):
         global taxidict
         try:
             ttnumbers = taxidict[message.text.lower()]
+            print(ttnumbers)
             ttnumbers = ttnumbers.split('. ')
+            print(ttnumbers)
             ttnumbers = '\n'.join(ttnumbers)
+            print(ttnumbers)
             bot.send_message(message.chat.id, ttnumbers)
         except:
             global questionstickerpack
