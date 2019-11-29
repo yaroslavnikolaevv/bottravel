@@ -425,7 +425,7 @@ def text_analyze(message):
                 senddd=ms[2]
                 bot.send_message(str(idd),senddd)
         elif message.text.lower()=="юзеры":
-		bot.send_message('744417229',read_users.read())
+                bot.send_message('744417229',read_users.read())
     if user=="840787844":
         if "разбан" in message.text.lower():
             messag=message.text.lower().split[':']	
@@ -454,7 +454,7 @@ def text_analyze(message):
                 senddd=ms[2]
                 bot.send_message(str(idd),senddd)
         elif message.text.lower()=="юзеры":
-		bot.send_message('840787844',read_users.read())
+                bot.send_message('840787844',read_users.read())
     global count
     
     if user not in ban_list:
