@@ -473,7 +473,7 @@ def text_analyze(message):
                 bot.register_next_step_handler(message, start_message) 
 
 def ai(message):
-    request = apiai.ApiAI('b8224668b91747c787325f3a9dc18168').text_request() # токен DialogFlow 
+    request = apiai.ApiAI('588ff7875dc8440394e11ff2bbc9e367').text_request() # токен DialogFlow 
     request.lang = 'ru' 
     request.session_id = 'session_1' # сюда можно писать что захотите 
     request.query = message.text 
