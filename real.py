@@ -136,24 +136,23 @@ def taxi_message(message):
     bot.register_next_step_handler(message, taxi_telephone_numbers_message)
     
 def taxi_telephone_numbers_message(message):
-    if message.text.lower() in commandlist:
-        exec(commandlist[message.text.lower()])
-    elif message.text.lower() in commandlist_ru:
-        exec(commandlist_ru[message.text.lower()])
-    elif '/' + message.text.lower() in commandlist:
-        exec(commandlist['/' + message.text.lower()])
-    else:
-        global taxidict
-        try:	
-		ttnumbers = taxidict[message.text.lower()]
-		print(ttnumbers)
-		ttnumbers = ttnumbers.split('. ')
-		for i in ttnumbers:
-			bot.send_message(message.chat.id, i)
-        except:
-            global questionstickerpack
-            bot.reply_to(message, 'Боюсь, что даже мистер Вульф не сможет туда приехать')
-            bot.send_sticker(message.chat.id, random.choice(questionstickerpack))
+	if message.text.lower() in commandlist:
+		exec(commandlist[message.text.lower()])
+	elif message.text.lower() in commandlist_ru:
+		exec(commandlist_ru[message.text.lower()])
+	elif '/' + message.text.lower() in commandlist:
+		exec(commandlist['/' + message.text.lower()])
+	else:
+		global taxidict
+		try:	
+			ttnumbers = taxidict[message.text.lower()]
+			ttnumbers = ttnumbers.split('. ')
+			for i in ttnumbers:
+				bot.send_message(message.chat.id, i)
+		except:
+			global questionstickerpack
+			bot.reply_to(message, 'Боюсь, что даже мистер Вульф не сможет туда приехать')
+			bot.send_sticker(message.chat.id, random.choice(questionstickerpack))
 #Блок для разработчиков
 @bot.message_handler(commands=['developers'])
 def developers_message(message):
