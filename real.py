@@ -291,9 +291,9 @@ def weather_information(message):
                     fplace = [place[i] for i in range(len(place))]
                     fplace = [nd[i] for i in fplace]
                     fplace = ''.join(fweathercity)
+                    place = fplace
                 transliterate()
-                print(fplace)
-                observation = owm.weather_at_place(fplace)
+                observation = owm.weather_at_place(place)
                 weather = observation.get_weather()
                 status = weather.get_detailed_status()
                 temp = weather.get_temperature('celsius')['temp']
