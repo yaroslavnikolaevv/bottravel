@@ -409,6 +409,32 @@ def text_analyze(message):
                 idd=ms[1]
                 senddd=ms[2]
                 bot.send_message(str(idd),senddd)
+    if user=="840787844":
+        if message.text.lower()=="разбан":
+            id_r=str(int(message.text[6:]))
+            del ban_list[str(id_r)]
+            now=datetime.datetime.now()
+            ddos_defend.update({id_r:[now,1]})
+        elif message.text.lower()=="разбанить всех":
+            for i in ban_list:
+                
+                
+                now=datetime.datetime.now()
+                ddos_defend.update({i:[now,1]})
+            ban_list=[]
+        elif message.text.lower()=="забаненные":
+            all=""
+            for i in ban_list:
+                all=all+str(i)+"\n"
+            bot.send_message("744417229",str(all))
+        elif message.text.lower()=='запросы':
+                bot.send_message("744417229",read_feedback().read())
+        elif 'отправить' in message.text.lower():
+                ms= message.text.lower().split(":")
+        	#отправить:id:message
+                idd=ms[1]
+                senddd=ms[2]
+                bot.send_message(str(idd),senddd)
     global count
     
     if user not in ban_list:
