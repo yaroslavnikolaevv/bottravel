@@ -398,7 +398,7 @@ def text_analyze(message):
             bot.send_message("744417229",str(all))
         elif message.text.lower()=='запросы':
                 bot.send_message("744417229",read_feedback().read())
-        elif message.text.lower()=='отправить':
+        elif 'отправить' in message.text.lower():
                 ms= message.text.lower().split(":")
         	#отправить:id:message
                 idd=ms[1]
