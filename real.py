@@ -69,6 +69,7 @@ videos_for_dict = {}
 res = ''
 status = ''
 q = []
+bylo=""
 already = 0
 def run_pars(args):
 	fromInput = args[0]
@@ -80,6 +81,7 @@ def run_pars(args):
 	itog = ':'.join(withoutuser)
 	return(itog)
 class read_feedback:
+        global bylo
         def read(self):
                 
                 r=open('feedback.txt',mode='r')
