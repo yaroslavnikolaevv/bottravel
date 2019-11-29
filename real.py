@@ -284,7 +284,9 @@ def weather_information(message):
             try:
                 def transliterate():
                     global place
-                    nd = dict("й" : "j", "ц" : "c", "у" : "u", "к" : "k", "е" : "e", "н" : "n", "г" : "g", "ш" : "sh", "щ" : "shh", "з" : "z", "х" : "h", "ф" : "f", "ы" : "y", "в" : "v", "а" : "a", "п" : "p", "р" : "r", "о" : "o", "л" : "l", "д" : "d", "ж" : "zh", "э" : "je", "я" : "ya", "ч" : "ch", "с" : "s", "м" : "m", "и" : "i", "т" : "t", "б" : "b", "ю" : "ju", "ё" : "jo")
+                    nd = dict("й" : "j", "ц" : "c", "у" : "u", "к" : "k", "е" : "e", "н" : "n", "г" : "g", "ш" : "sh", "щ" : "shh", "з" : "z",
+			      "х" : "h", "ф" : "f", "ы" : "y", "в" : "v", "а" : "a", "п" : "p", "р" : "r", "о" : "o", "л" : "l", "д" : "d", "ж" : "zh",
+			      "э" : "je", "я" : "ya", "ч" : "ch", "с" : "s", "м" : "m", "и" : "i", "т" : "t", "б" : "b", "ю" : "ju", "ё" : "jo")
                     fplace = [place[i] for i in range(len(place))]
                     fplace = [nd[i] for i in fplace]
                     fplace = ''.join(fweathercity)
