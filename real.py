@@ -27,6 +27,7 @@ ban_list=[]
 count = 0
 search_info=0
 #Блок такси
+place = ''
 f = codecs.open( 'taxinumbers.txt', "r", "utf_8_sig" )
 taxicities = f.read()
 taxicities = taxicities.split('\r\n')[:-1]
@@ -259,7 +260,7 @@ def weather_message(message):
     bot.register_next_step_handler(message, weather_information)
     
 def weather_information(message):
-    place = ''
+    global place
     global status
     global angrystickerpack
     if message.text.lower() in commandlist:
@@ -282,7 +283,7 @@ def weather_information(message):
         except:
             try:
                 def transliterate():
-                    local place
+                    global place
                     nd = dict("й": "j", "ц": "c", "у": "u", "к": "k", "е": "e", "н": "n", "г": "g", "ш": "sh", "щ": "shh", "з": "z", "х": "h", "ф": "f", "ы": "y", "в": "v", "а": "a", "п": "p", "р": "r", "о": "o", "л": "l", "д": "d", "ж": "zh", "э": "je", "я": "ya", "ч": "ch", "с": "s", "м": "m", "и" : "i", "т" : "t", "б" : "b", "ю" : "ju", "ё" : "jo")
                     fplace = [place[i] for i in range(len(place))]
                     fplace = [nd[i] for i in fplace]
