@@ -271,7 +271,7 @@ def weather_information(message):
             elif temp <= -25:
                 bot.send_message(message.chat.id, "Погода-mood: Ты умрёшь, если уйдёшь")
         except:
-            bot.reply_to(message, 'Врешь, такого города нет на картах')
+            bot.reply_to(message, 'Я не смог найти место с таким названием')
             bot.send_sticker(message.chat.id, random.choice(angrystickerpack))
 #Блок для помощи
 @bot.message_handler(commands=['help'])
