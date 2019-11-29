@@ -291,7 +291,7 @@ def weather_information(message):
                     fplace = [nd[i] for i in fplace]
                     fplace = ''.join(fweathercity)
                 transliterate()
-		print(fplace)
+                print(fplace)
                 observation = owm.weather_at_place(fplace)
                 weather = str(observation.get_weather())
                 status = str(weather.get_detailed_status())
