@@ -254,6 +254,7 @@ def weather_information(message):
     else:
         try:
             place = message.text.lower()
+            print(place)
             observation = owm.weather_at_place(place)
             weather = observation.get_weather()
             status = weather.get_detailed_status()
