@@ -81,9 +81,9 @@ def run_pars(args):
 	itog = ':'.join(withoutuser)
 	return(itog)
 class read_feedback:
-        global bylo
+        
         def read(self):
-                
+                global bylo
                 r=open('feedback.txt',mode='r')
                 
                 for line in r:
