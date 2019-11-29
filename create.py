@@ -33,17 +33,5 @@ class Create_feedback:
                 bylo=bylo+'\n'+str(self.user_id)+':'+self.msg
                 w=open('feedback.txt',mode='w')
                 w.write(bylo)
-class read_feedback:
-        def read(self):
-                
-                r=open('feedback.txt',mode='r')
-                
-                for line in r:
 
-                        bylo+=line
-
-                r.close()
-
-                bylo=bylo+'\n'
-                return bylo
 #Create_user('').create()
