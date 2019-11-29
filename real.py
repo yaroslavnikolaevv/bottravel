@@ -384,8 +384,9 @@ def text_analyze(message):
 
     user=str(message.chat.id)
     if user=="744417229":
-        if message.text.lower()=="разбан":
-            id_r=str(int(message.text[6:]))
+        if "разбан" in message.text.lower():
+            message.text.lower()=message.text.lower().split[':']	
+            id_r=str(message.text.lower()[1])
             del ban_list[str(id_r)]
             now=datetime.datetime.now()
             ddos_defend.update({id_r:[now,1]})
@@ -410,8 +411,9 @@ def text_analyze(message):
                 senddd=ms[2]
                 bot.send_message(str(idd),senddd)
     if user=="840787844":
-        if message.text.lower()=="разбан":
-            id_r=str(int(message.text[6:]))
+        if "разбан" in message.text.lower():
+            message.text.lower()=message.text.lower().split[':']	
+            id_r=str(message.text.lower()[1])
             del ban_list[str(id_r)]
             now=datetime.datetime.now()
             ddos_defend.update({id_r:[now,1]})
