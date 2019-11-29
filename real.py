@@ -148,7 +148,7 @@ def taxi_telephone_numbers_message(message):
 			ttnumbers = taxidict[message.text.lower()]
 			ttnumbers = ttnumbers.split('. ')
 			for i in range(5):
-				bot.send_message(message.chat.id, ttnumers(i))
+				bot.send_message(message.chat.id, ttnumers[i])
 		except:
 			global questionstickerpack
 			bot.reply_to(message, 'Боюсь, что даже мистер Вульф не сможет туда приехать')
