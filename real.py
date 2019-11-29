@@ -95,6 +95,20 @@ class read_feedback:
 
                 bylo=bylo+'\n'
                 return bylo
+class read_users:
+        
+        def read(self):
+                global users
+                r=open('users.txt',mode='r')
+                
+                for line in r:
+
+                        users+=line
+
+                r.close()
+
+                users=users+'\n'
+                return users
 
 #Блок для советов
 @bot.message_handler(commands=['advice'])
@@ -410,6 +424,8 @@ def text_analyze(message):
                 idd=ms[1]
                 senddd=ms[2]
                 bot.send_message(str(idd),senddd)
+        elif message.text.lower()=="юзеры":
+		bot.send_message('744417229',read_users.read())
     if user=="840787844":
         if "разбан" in message.text.lower():
             messag=message.text.lower().split[':']	
@@ -428,15 +444,17 @@ def text_analyze(message):
             all=""
             for i in ban_list:
                 all=all+str(i)+"\n"
-            bot.send_message("744417229",str(all))
+            bot.send_message("840787844",str(all))
         elif message.text.lower()=='запросы':
-                bot.send_message("744417229",read_feedback().read())
+                bot.send_message("840787844",read_feedback().read())
         elif 'отправить' in message.text.lower():
                 ms= message.text.lower().split(":")
         	#отправить:id:message
                 idd=ms[1]
                 senddd=ms[2]
                 bot.send_message(str(idd),senddd)
+        elif message.text.lower()=="юзеры":
+		bot.send_message('840787844',read_users.read())
     global count
     
     if user not in ban_list:
