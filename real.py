@@ -4,8 +4,8 @@ import json
 import telebot
 import wikipedia
 import random
-import time, re
-minimalq=0
+import time
+import re
 import pyowm
 import requests
 # from mqtt import *
@@ -21,9 +21,10 @@ from parsing import *
 token = load_dotenv()
 token = os.getenv('TOKEN')
 #Защита от DDoS
-ddos_defend={}
+ddos_defend = {}
+minimalq = 0
 ban_list=[]
-count=0
+count = 0
 search_info=0
 #Блок такси
 f = codecs.open( 'taxinumbers.txt', "r", "utf_8_sig" )
@@ -53,65 +54,64 @@ keyboard1.row('советы', 'помощь')
 keyboard1.row('старт', 'контакты разработчиков')
 keyboardExit= telebot.types.ReplyKeyboardMarkup(True, True)
 keyboardExit.row('Назад к функционалу')
-req_us={}
+req_us = {}
 #Блок погоды
 owm = pyowm.OWM('6d00d1d4e704068d70191bad2673e0cc')
 bot = telebot.TeleBot(token)
 #Блок переменных
-fromplace_dict={}
-toplace_dict={}
-dateregistration_dict={}
+fromplace_dict = {}
+toplace_dict = {}
+dateregistration_dict = {}
 video_search = ''
 video_search_list = []
-videos_for_dict={}
+videos_for_dict = {}
 res = ''
 status = ''
 q = []
-already=0
+already = 0
 def run_pars(args):
-    fromInput=args[0]
-    fromOutput=args[1]
-    date=args[2]
-    user=args[3]
-    withuser=Parsers(fromInput,fromOutput,date,user).threader().split(":")
-    withoutuser=withuser[1:]
-    itog=':'.join(withoutuser)
-    return(itog)
+	fromInput = args[0]
+	fromOutput = args[1]
+	date = args[2]
+	user = args[3]
+	withuser = Parsers(fromInput,fromOutput,date,user).threader().split(":")
+	withoutuser = withuser[1:]
+	itog = ':'.join(withoutuser)
+	return(itog)
 
 #Блок для советов
 @bot.message_handler(commands=['advice'])
 def advice_message(message):
-
-    bot.send_message(message.chat.id, 'Возможно вам понадобятся следущие вещи:')
-    bot.send_message(message.chat.id, ' *Документы* :\nпаспорт: внутренний или загран; документы для ребенка: 1) паспорт, 2) свидетельство о рождении, 3) согласие на выезд из России, если ребенок едет за границу без родителей; наличные деньги; билеты на самолет, поезд, автобус; брони отелей; водительские права; копия паспорта; страховой полис путешественника' , parse_mode="Markdown")
-    bot.send_message(message.chat.id, ' *Техника и гаджеты в дорогу* : \ncмартфон и зарядка; внешний жесткий диск; дорожный утюг; маленький электрический чайник; наушники; ноутбук и зарядка; переходник для розеток; плеер; тройник, удлинитель или сетевой фильтр; фен; фотоаппарат, зарядка, карты памяти, сумка для камеры; штатив, монопод, палка для селфи; электронная книга' , parse_mode="Markdown")
-    bot.send_message(message.chat.id, ' *Бытовые мелочи и комфорт в поездке:* \nсумочка или городской рюкзак для прогулок; блокнот и ручка; вилка, ложка, тарелка, чашка; зонт; карманное зеркало; карта; книга, путеводитель, журнал; маска для сна, беруши, надувная подушка; обычные пакеты; полотенце; разговорник; солнечные очки; туалетная бумага; швейный набор; швейцарский армейский нож' , parse_mode="Markdown")
-    bot.send_message(message.chat.id, ' *Гигиена и косметика в поездку* : \nбритва; дезодорант; зубная паста и щетка; расческа; ватные палочки, ватные диски; Влажные салфетки, бумажные платочки; гигиеническая помада, бальзам для губ; гигиенические прокладки, тампоны; дезинфицирующий гель для рук; зубная нить, зубочистки; крем от солнца; кремы для лица и тела; ножницы и пилочка для ногтей; очки или контактные линзы с контейнером и раствором; парфюм; пена для и после бритья; помада, тушь для ресниц и другая декоративная косметика, средство для снятия макияжа; репеллент от комаров; средство для укладки волос; фумигатор; шампунь, кондиционер для волос, мыло, гель для душа, мочалка' , parse_mode="Markdown")
-    bot.send_message(message.chat.id, ' *Одежда и обувь в путешествие* : \nблузка / рубашка; брюки / джинсы / штаны; кофта / худи / свитер / теплая рубашка; нижнее белье; носки / колготки; удобная обувь на каждый день; футболки с короткими и длинными рукавами; аксессуары; домашняя одежда / пижама; купальник / плавки; куртка; нарядная обувь «на выход»; плащ-дождевик или непромокаемая куртка; шлепки / сланцы; шляпа / бейсболка / панама от солнца; Шорты; юбка / платье' , parse_mode="Markdown")
-    bot.send_message(message.chat.id, ' *Лекарства* для одного взрослого в спокойный отпуск на 2–3 недели: /nНурофен (Обезболивающее, жаропонижающее) 20 таблеток (200 мг); Но-шпа (При мышечных спазмах) 6 таблеток (40 мг); Полисорб МП (Сорбент: при пищевом отравлении) 10 пакетиков (3 г); Мезим форте (Пищеварительное ферментное средство: при переедании, тяжести в животе, вздутии) 10 таблеток; Церукал (При рвоте, в т. ч. мешающей приему лекарств) 5 таблеток (10 мг); Имодиум (При диарее) 6 таблеток (2 мг); Хлоргексидин, пластырь и бинт (Антисептик для обработки ран) пластиковый флакон 50 мл; Септолете (Антисептик от боли в горле) 10 таблеток для рассасывания' , parse_mode="Markdown")
+	bot.send_message(message.chat.id, 'Возможно вам понадобятся следущие вещи:')
+	bot.send_message(message.chat.id, ' *Документы* :\nпаспорт: внутренний или загран; документы для ребенка: 1) паспорт, 2) свидетельство о рождении, 3) согласие на выезд из России, если ребенок едет за границу без родителей; наличные деньги; билеты на самолет, поезд, автобус; брони отелей; водительские права; копия паспорта; страховой полис путешественника' , parse_mode="Markdown")
+	bot.send_message(message.chat.id, ' *Техника и гаджеты в дорогу* : \ncмартфон и зарядка; внешний жесткий диск; дорожный утюг; маленький электрический чайник; наушники; ноутбук и зарядка; переходник для розеток; плеер; тройник, удлинитель или сетевой фильтр; фен; фотоаппарат, зарядка, карты памяти, сумка для камеры; штатив, монопод, палка для селфи; электронная книга' , parse_mode="Markdown")
+	bot.send_message(message.chat.id, ' *Бытовые мелочи и комфорт в поездке:* \nсумочка или городской рюкзак для прогулок; блокнот и ручка; вилка, ложка, тарелка, чашка; зонт; карманное зеркало; карта; книга, путеводитель, журнал; маска для сна, беруши, надувная подушка; обычные пакеты; полотенце; разговорник; солнечные очки; туалетная бумага; швейный набор; швейцарский армейский нож' , parse_mode="Markdown")
+	bot.send_message(message.chat.id, ' *Гигиена и косметика в поездку* : \nбритва; дезодорант; зубная паста и щетка; расческа; ватные палочки, ватные диски; Влажные салфетки, бумажные платочки; гигиеническая помада, бальзам для губ; гигиенические прокладки, тампоны; дезинфицирующий гель для рук; зубная нить, зубочистки; крем от солнца; кремы для лица и тела; ножницы и пилочка для ногтей; очки или контактные линзы с контейнером и раствором; парфюм; пена для и после бритья; помада, тушь для ресниц и другая декоративная косметика, средство для снятия макияжа; репеллент от комаров; средство для укладки волос; фумигатор; шампунь, кондиционер для волос, мыло, гель для душа, мочалка' , parse_mode="Markdown")
+	bot.send_message(message.chat.id, ' *Одежда и обувь в путешествие* : \nблузка / рубашка; брюки / джинсы / штаны; кофта / худи / свитер / теплая рубашка; нижнее белье; носки / колготки; удобная обувь на каждый день; футболки с короткими и длинными рукавами; аксессуары; домашняя одежда / пижама; купальник / плавки; куртка; нарядная обувь «на выход»; плащ-дождевик или непромокаемая куртка; шлепки / сланцы; шляпа / бейсболка / панама от солнца; Шорты; юбка / платье' , parse_mode="Markdown")
+	bot.send_message(message.chat.id, ' *Лекарства* для одного взрослого в спокойный отпуск на 2–3 недели: /nНурофен (Обезболивающее, жаропонижающее) 20 таблеток (200 мг); Но-шпа (При мышечных спазмах) 6 таблеток (40 мг); Полисорб МП (Сорбент: при пищевом отравлении) 10 пакетиков (3 г); Мезим форте (Пищеварительное ферментное средство: при переедании, тяжести в животе, вздутии) 10 таблеток; Церукал (При рвоте, в т. ч. мешающей приему лекарств) 5 таблеток (10 мг); Имодиум (При диарее) 6 таблеток (2 мг); Хлоргексидин, пластырь и бинт (Антисептик для обработки ран) пластиковый флакон 50 мл; Септолете (Антисептик от боли в горле) 10 таблеток для рассасывания' , parse_mode="Markdown")
 #
 #Блок для Википедии
 @bot.message_handler(commands=['placeinfo', 'wikipedia'])
 def wikipedia_message(message):
-    bot.send_message(message.chat.id, 'Введите место, информацию о котором хотели бы узнать')
-    bot.register_next_step_handler(message, wikipedia_information)
+	bot.send_message(message.chat.id, 'Введите место, информацию о котором хотели бы узнать')
+	bot.register_next_step_handler(message, wikipedia_information)
 
 def wikipedia_information(message):
-    if message.text.lower() in commandlist:
-            exec(commandlist[message.text.lower()])
-    elif message.text.lower() in commandlist_ru:
-            exec(commandlist_ru[message.text.lower()])
-    elif '/' + message.text.lower() in commandlist:
-            exec(commandlist['/' + message.text.lower()])
-    else:
-        try:
-            global lovestickerpack
-            wikipedia.set_lang('ru')
-            wikipediamessage = wikipedia.summary(message.text.lower(), sentences=4)
-            bot.send_message(message.chat.id, wikipediamessage)
-        except:
-            bot.send_message(message.chat.id, 'Такой статьи пока не существует, но вы в любой момент можете её создать')
-            bot.send_sticker(message.chat.id, random.choice(lovestickerpack))
+	if message.text.lower() in commandlist:
+		exec(commandlist[message.text.lower()])
+	elif message.text.lower() in commandlist_ru:
+		exec(commandlist_ru[message.text.lower()])
+	elif '/' + message.text.lower() in commandlist:
+		exec(commandlist['/' + message.text.lower()])
+	else:
+		try:
+			global lovestickerpack
+			wikipedia.set_lang('ru')
+			wikipediamessage = wikipedia.summary(message.text.lower(), sentences=4)
+			bot.send_message(message.chat.id, wikipediamessage)
+		except:
+			bot.send_message(message.chat.id, 'Такой статьи пока не существует, но вы в любой момент можете её создать')
+			bot.send_sticker(message.chat.id, random.choice(lovestickerpack))
     
 #Блок команды для такси
 @bot.message_handler(commands=['taxi'])
