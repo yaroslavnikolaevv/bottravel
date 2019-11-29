@@ -273,30 +273,31 @@ def weather_information(message):
             place = message.text.lower()
             print(place)
             observation = owm.weather_at_place(place)
-            weather = observation.get_weather()
-            status = weather.get_detailed_status()
-            temp = weather.get_temperature('celsius')['temp']
-            wind = weather.get_wind()['speed']
+            weather = str(observation.get_weather())
+            status = str(weather.get_detailed_status())
+            temp = str(weather.get_temperature('celsius')['temp'])
+            wind = str(weather.get_wind()['speed'])
             weathercity = message.text[0].upper() + message.text.lower()[1:]
-            print(place)
-            print(observation)
-            print(weather)
-            print(status)
-            print(temp)
-            print(wind)
-            print(weathercity)
-            bot.send_message(message.chat.id, )
-            if temp >= 15:
-                bot.send_message(message.chat.id, "Погода-mood: Cамое-то ")
-            elif 15 > temp  and temp > 0:
-                bot.send_message(message.chat.id, "Погода-mood: Накинь что нибудь на себя ")
-            elif temp < 0 and -25 < temp:
-                bot.send_message(message.chat.id, "Погода-mood: Одевайся мать, пора воевать ")
-            elif temp <= -25:
-                bot.send_message(message.chat.id, "Погода-mood: Ты умрёшь, если уйдёшь")
+            bot.send_message(message.chat.id, '{0}{1}{2}{3}{4}'.format(weather, status, temp, wind, weathercity))
         except:
-            bot.reply_to(message, 'Я не смог найти место с таким названием')
-            bot.send_sticker(message.chat.id, random.choice(angrystickerpack))
+            try:
+                def transliterate():
+                    local place
+                    nd = dict("й": "j", "ц": "c", "у": "u", "к": "k", "е": "e", "н": "n", "г": "g", "ш": "sh", "щ": "shh", "з": "z", "х": "h", "ф": "f", "ы": "y", "в": "v", "а": "a", "п": "p", "р": "r", "о": "o", "л": "l", "д": "d", "ж": "zh", "э": "je", "я": "ya", "ч": "ch", "с": "s", "м": "m", "и" : "i", "т" : "t", "б" : "b", "ю" : "ju", "ё" : "jo")
+                    fplace = [place[i] for i in range(len(place))]
+                    fplace = [nd[i] for i in fplace]
+                    fplace = ''.join(fweathercity)
+                transliterate()
+                observation = owm.weather_at_place(fplace)
+                weather = str(observation.get_weather())
+                status = str(weather.get_detailed_status())
+                temp = str(weather.get_temperature('celsius')['temp'])
+                wind = str(weather.get_wind()['speed'])
+                weathercity = message.text[0].upper() + message.text.lower()[1:]
+                bot.send_message(message.chat.id, '{0}{1}{2}{3}{4}'.format(weather, status, temp, wind, weathercity))
+            except:
+                bot.reply_to(message, 'Я не смог найти место с таким названием')
+                bot.send_sticker(message.chat.id, random.choice(angrystickerpack))
 #Блок для помощи
 @bot.message_handler(commands=['help'])
 def help_message(message):
