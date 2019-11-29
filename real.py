@@ -5,7 +5,7 @@ import telebot
 import wikipedia
 import random
 import time, re
-minimalq=0
+minimalq = 0
 import pyowm
 import requests
 # from mqtt import *
@@ -21,10 +21,10 @@ from parsing import *
 token = load_dotenv()
 token = os.getenv('TOKEN')
 #Защита от DDoS
-ddos_defend={}
-ban_list=[]
-count=0
-search_info=0
+ddos_defend = {}
+ban_list = []
+count = 0
+search_info = 0
 #Блок такси
 f = codecs.open( 'taxinumbers.txt', "r", "utf_8_sig" )
 taxicities = f.read()
