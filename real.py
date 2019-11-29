@@ -149,8 +149,12 @@ def taxi_telephone_numbers_message(message):
 			ttnumbers = taxidict[message.text.lower()]
 			ttnumbers = ttnumbers.split('. ')
 			print(ttnumbers)
-			for i in range(5):
-				bot.send_message(message.chat.id, ttnumbers[i])
+			if len(ttnumbers) >= 5:
+				for i in range(5):
+					bot.send_message(message.chat.id, ttnumbers[i])
+			else:
+				for i in range(len(ttnumbers)):
+					bot.send_message(message.chat.id, ttnumbers[i])
 		except:
 			global questionstickerpack
 			bot.reply_to(message, 'Извините, в моей базе данных пока нет такого города')
@@ -214,7 +218,7 @@ def date_registration(message):
         dateregistration_dict.update({str(message.chat.id):message.text.lower()})
    
        
-        if len(q)<1:
+        if len(q)<2:
             q.append([fromplace_dict[str(message.chat.id)],toplace_dict[str(message.chat.id)],dateregistration_dict[str(message.chat.id)],str(message.chat.id)])    
             bot.send_message(q[len(q)-1][3],"Вы добавлены в очередь по поиску билетов,ожидайте. Ввод команд может быть недоступен до завершения поиска")
         else:
