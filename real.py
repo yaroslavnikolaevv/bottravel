@@ -145,6 +145,7 @@ def taxi_telephone_numbers_message(message):
     else:
         global taxidict
         try:
+			
             ttnumbers = taxidict[message.text.lower()]
             print(ttnumbers)
             ttnumbers = ttnumbers.split('. ')
