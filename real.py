@@ -148,6 +148,7 @@ def taxi_telephone_numbers_message(message):
 		try:	
 			ttnumbers = taxidict[message.text.lower()]
 			ttnumbers = ttnumbers.split('. ')
+			print(ttnumbers)
 			for i in range(5):
 				bot.send_message(message.chat.id, ttnumers[i])
 		except:
