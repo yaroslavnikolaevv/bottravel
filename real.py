@@ -150,7 +150,7 @@ def taxi_telephone_numbers_message(message):
 			ttnumbers = ttnumbers.split('. ')
 			print(ttnumbers)
 			for i in range(5):
-				bot.send_message(message.chat.id, ttnumers[i])
+				bot.send_message(message.chat.id, ttnumbers[i])
 		except:
 			global questionstickerpack
 			bot.reply_to(message, 'Извините, в моей базе данных пока нет такого города')
