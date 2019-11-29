@@ -144,13 +144,12 @@ def taxi_telephone_numbers_message(message):
         exec(commandlist['/' + message.text.lower()])
     else:
         global taxidict
-        try:
-			
-            ttnumbers = taxidict[message.text.lower()]
-            print(ttnumbers)
-            ttnumbers = ttnumbers.split('. ')
-			for i in ttnumbers:
-				bot.send_message(message.chat.id, i)
+        try:	
+		ttnumbers = taxidict[message.text.lower()]
+		print(ttnumbers)
+		ttnumbers = ttnumbers.split('. ')
+		for i in ttnumbers:
+			bot.send_message(message.chat.id, i)
         except:
             global questionstickerpack
             bot.reply_to(message, 'Боюсь, что даже мистер Вульф не сможет туда приехать')
