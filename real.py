@@ -58,7 +58,7 @@ keyboardExit= telebot.types.ReplyKeyboardMarkup(True, True)
 keyboardExit.row('Назад к функционалу')
 req_us = {}
 #Блок погоды
-owm = pyowm.OWM('6d00d1d4e704068d70191bad2673e0cc', lang=['ru', 'en'])
+owm = pyowm.OWM('6d00d1d4e704068d70191bad2673e0cc', language='ru')
 bot = telebot.TeleBot(token)
 #Блок переменных
 fromplace_dict = {}
