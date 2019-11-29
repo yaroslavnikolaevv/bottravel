@@ -323,10 +323,10 @@ def video_search(message):
             links = soup.find_all(attrs={'class':'yt-uix-tile-link'})
             links= [l['href'] for l in links]
             if ('channel' or 'user') not in links[0]:
-                res = 'https://www.youtube.com/' + links[0]
+                res = 'https://www.youtube.com' + links[0]
 
             else:
-                res = 'https://www.youtube.com/' + links[1]
+                res = 'https://www.youtube.com' + links[1]
 
 
             bot.send_message(message.chat.id, res)
