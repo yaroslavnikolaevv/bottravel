@@ -275,10 +275,10 @@ def weather_information(message):
             place = message.text.lower()
             print(place)
             observation = owm.weather_at_place(place)
-            weather = str(observation.get_weather())
-            status = str(weather.get_detailed_status())
-            temp = str(weather.get_temperature('celsius')['temp'])
-            wind = str(weather.get_wind()['speed'])
+            weather = observation.get_weather()
+            status = weather.get_detailed_status()
+            temp = weather.get_temperature('celsius')['temp']
+            wind = weather.get_wind()['speed']
             weathercity = message.text[0].upper() + message.text.lower()[1:]
             bot.send_message(message.chat.id, '{0}{1}{2}{3}{4}'.format(weather, status, temp, wind, weathercity))
         except:
@@ -294,10 +294,10 @@ def weather_information(message):
                 transliterate()
                 print(fplace)
                 observation = owm.weather_at_place(fplace)
-                weather = str(observation.get_weather())
-                status = str(weather.get_detailed_status())
-                temp = str(weather.get_temperature('celsius')['temp'])
-                wind = str(weather.get_wind()['speed'])
+                weather = observation.get_weather()
+                status = weather.get_detailed_status()
+                temp = weather.get_temperature('celsius')['temp']
+                wind = weather.get_wind()['speed']
                 weathercity = message.text[0].upper() + message.text.lower()[1:]
                 bot.send_message(message.chat.id, '{0}{1}{2}{3}{4}'.format(weather, status, temp, wind, weathercity))
             except:
