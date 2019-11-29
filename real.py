@@ -152,7 +152,7 @@ def taxi_telephone_numbers_message(message):
 				bot.send_message(message.chat.id, ttnumers[i])
 		except:
 			global questionstickerpack
-			bot.reply_to(message, 'Боюсь, что даже мистер Вульф не сможет туда приехать')
+			bot.reply_to(message, 'Извините, в моей базе данных пока нет такого города')
 			bot.send_sticker(message.chat.id, random.choice(questionstickerpack))
 #Блок для разработчиков
 @bot.message_handler(commands=['developers'])
@@ -263,7 +263,7 @@ def weather_information(message):
     global place
     global status
     global owm
-    global angrystickerpack
+    global questionstickerpack
     if message.text.lower() in commandlist:
         exec(commandlist[message.text.lower()])
     elif message.text.lower() in commandlist_ru:
@@ -297,8 +297,8 @@ def weather_information(message):
                 weathercity = message.text[0].upper() + message.text.lower()[1:]
                 bot.send_message(message.chat.id, '{0}{1}{2}{3}{4}'.format(weather, status, temp, wind, weathercity))
             except:
-                bot.reply_to(message, 'Я не смог найти место с таким названием')
-                bot.send_sticker(message.chat.id, random.choice(angrystickerpack))
+                bot.reply_to(message, 'Извините, в моей базе данных пока нет такого города')
+                bot.send_sticker(message.chat.id, random.choice(questionstickerpack))
 #Блок для помощи
 @bot.message_handler(commands=['help'])
 def help_message(message):
@@ -356,7 +356,7 @@ def video_search(message):
             bot.send_message(message.chat.id, res)
         except:
             global questionstickerpack#
-            bot.send_message(message.chat.id, 'Видео, связанное с этой темой, пока не сняли')
+            bot.send_message(message.chat.id, 'Извините, в моей базе данных пока нет такого видео')
             bot.send_sticker(message.chat.id, random.choice(questionstickerpack))
 @bot.message_handler(commands=['feedback'])
 def feedback_message(message):
